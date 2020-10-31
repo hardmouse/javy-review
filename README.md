@@ -1,6 +1,7 @@
 # JavyReview
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.8.
+The purpose of this project is mainly created for Javy's game and his interested topic review and self coding practice.
 
 ## Development server
 
