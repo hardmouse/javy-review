@@ -1,7 +1,7 @@
 <div *ngIf="!addPostMode" (scroll)="onScroll($event)">
     <div class="row no-gutters" *ngIf="posts">
         <div class="col-4 blog-owner">
-            <h3>{{postOwnerName}}</h3>
+            <h3>{{postOwnerName}} - test</h3>
         </div>
         <div class="col-8">
             <div *ngFor="let tag of tags; let i=index" (click)="tagClick(i);" class="tags" [ngClass]="{'disabled':!tag.val}">
