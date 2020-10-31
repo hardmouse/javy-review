@@ -1,0 +1,88 @@
+<div *ngIf="process==1" class="join-board-wrapper">
+    <form [formGroup]="addUserForm" #userAdd="ngForm" (ngSubmit)="onSubmit()">
+        <div class="row no-gutters">
+            <div class="col-12 col-md-8 left-side">
+                <div class="row">
+                    <div class="col-12">
+                        <label>Email:</label>
+                        <input type="text" name="email" formControlName="email" placeholder="email" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-8">
+                        <label>Nick Name:</label>
+                        <input type="text" name="nickname" formControlName="nickname" placeholder="nickname" />
+                    </div>
+                    <div class="col-4">
+                        <label>Middle Name:</label>
+                        <input type="text" name="middlename" formControlName="middlename" placeholder="middle name" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <label>First Name:</label>
+                        <input type="text" name="firstname" formControlName="firstname" placeholder="first name" />
+                    </div>
+                    <div class="col-6">
+                        <label>Last Name:</label>
+                        <input type="text" name="lastname" formControlName="lastname" placeholder="last name" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <label>Title:</label>
+                        <input type="text" name="title" formControlName="title" placeholder="title" />
+                    </div>
+                    <div class="col-6">
+                        <label>Dirthday:</label>
+                        <input type="text" name="dob" formControlName="dob" placeholder="d.o.b." />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <label>Animal:</label>
+                        <select name="avatar" formControlName="avatar" [(ngModel)]="selectedAnimal">
+                            <option *ngFor="let animal of animals" [value]="animal">{{animal}}</option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <label>Color:</label> 
+                        <select name="color" formControlName="color" [(ngModel)]="selectedColor" [ngStyle]="{'background-color':'#'+colors[selectedColor].code}">
+                            <option *ngFor="let color of colors; let i = index" [value]="i" [ngStyle]="{'background-color':'#'+color.code,'color':'#'+color.code}">{{color.color}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <label>Brief Description:</label>
+                        <textarea cols="50" rows="5" name="description" formControlName="description" placeholder="description"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <label>Image Link:</label>
+                        <input type="text" name="image" formControlName="image" placeholder="Image" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 right-side">
+                IMAGE
+            </div>
+            
+        </div>
+        <div class="row">
+            <div class="col-12 text-center bottom-button-wrapper">
+                <input type="submit" name="submit" class="btn-submit" />
+                <!-- <input type="button" name="ADD USER" value="ADD TEST" (click)="addUserX(addUserForm)" /> -->
+            </div>
+        </div>
+    </form>
+</div>
+<div *ngIf="process==2">
+    
+    <div (click)="errBack()" class="btn-submit">BACK</div>
+</div>
+<div *ngIf="process==3">
+    DONE
+</div>
+<!-- firstname, lastname, email, middlename, nickname, title, dob, avatar, color, image, description -->

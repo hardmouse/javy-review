@@ -1,0 +1,117 @@
+@import './src/assets/styles/variables.scss';
+.article{
+    background-color: #FFF;
+    padding: 0;
+    border-radius: $outter-radius;
+    .image{
+        max-width: 100%;
+        width: 100%;
+    }
+    .header{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        .public{
+            .subline{
+                text-transform: uppercase;
+                .reicon:not(.first){
+                    padding-left: 1rem;
+                }
+            }
+        }
+        h2{
+            font-family: 'Bangers';
+        }
+    }
+    
+    .video{
+        position: relative;
+        padding-top: 56.25%;
+        iframe{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    }
+    .edit{
+        padding: 0.5rem;
+        background-color:#FFEA99;
+        border-radius: $inner-radius;
+        .img-wrapper{
+            position:relative;
+            .image{
+                width: 100%;
+                display: block;
+                padding: 0.5rem 0;
+                &.greyout{
+                    -webkit-filter: grayscale(60%);
+                    filter: grayscale(60%);
+                    opacity: 0.7;
+                }
+            }
+            .image-input{
+                width: 100%;
+            }
+        }
+        .text-input{
+            .layout-cell{
+                display: inline-block;
+                &.layout-image{
+                    display: none;
+                    padding-left: 0.5rem;
+                    img{
+                        border: 0;
+                    }
+                }
+            }
+        }
+        .text-input::after{
+            content: '';
+            border-top: 5px dashed #c5ad4e;
+            margin: 0 0.5rem;
+            width: 100%;
+        }
+        .bottom-wrapper{
+            padding: 0.5rem 0;
+            .edit-btn{
+                padding: 0.5rem 0;
+                font-size: 1.5rem;
+                font-family: 'Bangers';
+                color: #0079c1;
+                cursor: pointer;
+            }
+        }
+        
+    }
+}
+@media (min-width: 576px) {
+}
+  
+@media (min-width: 768px) {
+    .article{
+        padding: 1rem;
+        .edit{
+            .text-input{
+                .layout-cell.layout-image{
+                    display: inline-block;
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 992px) {
+    
+}
+
+@media (min-width: 1200px) {
+}
+
+@media (min-width: 1520px) {
+}
+
+@media (min-width: 1920px) {
+}
+

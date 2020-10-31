@@ -1,0 +1,80 @@
+
+header{
+    display: flex;
+    flex-direction: column;
+    .title-nav{
+        display: flex;
+        flex-direction: column;
+    }
+    img{
+        display: none;
+    }
+    img.avatar{
+        width: 5rem;
+        transform: rotate(0) scale(1, 1);
+        transition: all .1s;
+        padding-right: 1rem;
+    }
+    img.over{
+        transform: rotate(10deg) scale(1.2, 1.2);
+    }
+    h1{
+        font-family: 'Bangers';
+        margin-bottom: 0;
+    }
+    nav, h1{
+        display: inline-block;
+    }
+    ul{
+        display: flex;
+        flex-direction: row;
+        padding-inline-start: 0;
+        margin-bottom: 0;
+        li{
+            display: inline-block;
+            list-style-type: none;
+            padding: 0 1rem;
+        }
+    }
+    a{
+        color: #FFF;
+    }
+    a:hover{
+        text-decoration: none;
+        color: #FF0;
+    }
+    
+}
+.profile{
+    position: absolute;
+    top: 5rem;
+    z-index: 1;
+}
+
+@media (min-width: 576px) {
+}
+  
+@media (min-width: 768px) {
+    header{
+        flex-direction: row;
+        .title-nav{
+            flex-direction: row;
+        }
+        img{
+            display: block;
+        }
+    }
+}
+
+@media (min-width: 992px) {
+    
+}
+
+@media (min-width: 1200px) {
+}
+
+@media (min-width: 1520px) {
+}
+
+@media (min-width: 1920px) {
+}

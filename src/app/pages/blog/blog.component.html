@@ -1,0 +1,106 @@
+<div *ngIf="!addPostMode" (scroll)="onScroll($event)">
+    <div class="row no-gutters" *ngIf="posts">
+        <div class="col-4 blog-owner">
+            <h3>{{postOwnerName}}</h3>
+        </div>
+        <div class="col-8">
+            <div *ngFor="let tag of tags; let i=index" (click)="tagClick(i);" class="tags" [ngClass]="{'disabled':!tag.val}">
+                {{tag.name}}
+            </div>
+        </div>
+        <div *ngFor="let post of posts; let i=index" class="col-12 col-md-6 col-lg-4 blog-card">
+            <div class="post h-100" [routerLink]="'/article/'+post.post_uid">
+                <h5>
+                {{i+1}} ) 
+                <i *ngIf="post.post_privilege=='self'" class="reicon icon-eye-outline"></i>
+                <i *ngIf="post.post_privilege=='friends'" class="reicon icon-user-outline"></i>
+                <i *ngIf="post.post_privilege=='public'" class="reicon icon-globe-outline"></i>
+                {{post.post_title}} <span class="cata-title"> - {{post.post_catagory}}</span></h5>
+                <div class="content">
+                    <div *ngIf="post.post_images" class="img-wrapper">
+                        <img *ngIf="post.post_images[0]" [src]="post.post_images[0].photo" />
+                        <img *ngIf="post.post_images[1]" [src]="post.post_images[1].photo" />
+                    </div>
+                    <p [ngClass]="{'p-100':!post.post_images}">{{(post.post_body.length>120)? (post.post_body | slice:0:120):(post.post_body)}}
+                        <a *ngIf="post.post_body.length>120" href="javascript:void(0);"> ...more</a>
+                    </p>
+                </div>
+                <h6 class="date">{{post.post_date}}</h6>
+            </div>
+            <div *ngIf="currentUserData.user==postOwner && 0" class="btn-delete" [ngClass]="{'selected':post.delete}" (click)="selectDelete(i)">
+                <i class="reicon icon-trash"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="posts<=0">
+        <div class="post">
+            <h1><i class="reicon icon-spin3"></i></h1>
+        </div>
+    </div>
+    <div *ngIf="currentUserData.user==postOwner" (click)="addPostToggle()" class="link"><i class="reicon icon-plus-outline"></i>Add </div>
+    <div *ngIf="currentUserData.user==postOwner && 0" (click)="deletePosts()" class="link"><i class="reicon icon-trash"></i>DELETE SELECTED POSTS</div>
+    <div *ngIf="(currentPage+1) < totalPages.length" (click)="loadMoreArticle()" class="link"><i class="reicon icon-down-outline"></i>More Article ({{(currentPage+1)+'/'+totalPages.length}})</div>
+</div>
+
+<div *ngIf="addPostMode" class="add-board-wrapper">
+    <form [formGroup]="addPostForm" #articlePost="ngForm" (ngSubmit)="onSubmit()" *ngIf="1">
+    <div class="row text-input">
+        <div class="col-12 title"><h2>Add Review</h2></div>
+        <div class="col-7">
+            <label>Title:</label>
+            <input type="text" name="title" class="w-100" formControlName="title" placeholder="Title" class="w-100" />
+        </div>
+        <div class="col-2">
+            <label>Catagory:</label>
+            <select name="catagory" class="w-100" formControlName="catagory" [(ngModel)]="selectedCatagory">
+                <option *ngFor="let cata of catas" [value]="cata">{{cata | uppercase}}</option>
+            </select>
+        </div>
+        <div class="col-3">
+            <div class="layout-cell">
+                <label>Layout: </label>
+                <select name="layout" class="w-100" formControlName="layout" [(ngModel)]="selectedLayout" (ngModelChange)="layoutChange($event)">
+                    <option *ngFor="let ltype of layouts" [ngValue]="ltype">{{ltype}}</option>
+                </select>
+            </div>
+            <div class="layout-cell layout-image align-top">
+                <img [src]="'./assets/images/site/'+selectedLayout+'.png'" />
+            </div>
+        </div>
+    </div>
+    <div class="row text-input">
+        <div class="col-12">
+            <label>Review:</label>
+            <quill-editor formControlName="review" class="ql-wrapper" [(modules)]="rte_modules" (ngModelChange)="charCountFunc($event)"></quill-editor>
+            <span>{{charCount}}</span>
+        </div>
+    </div>
+    <div class="row text-input">
+        <div *ngFor="let p_box of initImageBox; let i = index" class="col-12 col-md-4">
+            <img *ngIf="!p_box.err" [src]="p_box.imgUrl" class="image" (error)="errorImageUrl($event,i)" />
+            <input type="text" formControlName="{{'imageUrl'+i}}" [(ngModel)]="p_box.imgUrl" placeholder="Image {{i}} URL" class="w-100" (ngModelChange)="imgUrlUpdate($event,i)" />
+            <input type="text" formControlName="{{'imageDesp'+i}}" [(ngModel)]="p_box.imgDesp" placeholder="Image {{i}} Description" class="w-100" />
+        </div>
+    </div>
+    <div class="row text-input">
+        <div class="col-12">
+            <input type="text" name="videourl" formControlName="video" placeholder="Youtube URL" class="w-100" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2 text-left align-middle">
+            <div class="btn-cancel reicon icon-cancel-alt" (click)="addPostToggle()"></div>
+        </div>
+        <div class="col-10 text-center">
+            <input type="submit" name="submit" class="btn-submit" value="Post My Review" />
+        </div>
+        <!-- <ngx-dropzone (change)="onSelect($event)">
+            <ngx-dropzone-label>Drop it, yo!</ngx-dropzone-label>
+            <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+            </ngx-dropzone-preview>
+        </ngx-dropzone> -->
+    </div>
+    </form>
+</div>

@@ -1,0 +1,146 @@
+<div class="row" *ngIf="article.length > 0">
+    <div *ngFor="let item of article | slice:0:12; let i=index" class="col-12 bottom-padding">
+        <div class="article h-100" [routerLink]="'/article/'+item.post_uid">
+            <div class="header">
+                <div class="public container remove-padding">
+                    <div class="row">
+                        <div class="col-12 col-md-10">
+                            <h2>{{currentArticleID}}: {{item.post_title}}</h2>
+                        </div>
+                        <div class="col-12 col-md-2 align-right">
+                            <div *ngIf="currentArticleUserID==currentUserData.user" class="edit-wrapper">
+                                <span *ngIf="!editmode" class="btn-edit reicon icon-pen" (click)="toggleEdit()"></span>
+                                <span *ngIf="editmode" class="btn-cancel reicon icon-cancel-alt" (click)="toggleEdit()"></span>
+                                <span *ngIf="editmode" class="btn-delete reicon icon-trash" (click)="deleteArticle()"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <ul class="user-feedback">
+                                <li *ngFor="let feedtype of reTypes.feed_type" [ngStyle]="{'background-color':feedtype.color}" (click)="onFeedClick(feedtype.name)">
+                                    <i class="reicon" [ngClass]="feedtype.icon"></i>
+                                    <span *ngIf="totalFeed[feedtype.name]">{{totalFeed[feedtype.name]}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-md-6 text-right">
+                            <span class="subline">
+                                <i class="reicon icon-clipboard first"></i>{{item.post_catagory}} 
+                                <i class="reicon icon-upload-outline"></i>{{item.post_date}} 
+                                <span *ngIf="editdate"><i class="reicon icon-edit"></i>Updated:{{editdate}}</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!editmode" class="container remove-padding">
+                <div *ngIf="item.post_layout!='MIXED'">
+                    <div *ngIf="article[0].post_images" class="row">
+                        <div *ngFor="let photo of article[0].post_images" [ngClass]="imageLayout(item.post_layout)">
+                            <img [src]="photo.photo" class="image"/>
+                            <p>{{photo.name}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div [innerHTML]="currentBody | safe: 'html'" class="col-12"></div>
+                        <div class="col-12" *ngIf="currentVideo">
+                            <div class="video"><iframe [src]="currentVideo | safe: 'youtubeUrl'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+                        </div>
+                        <div class="col-12 text-right">
+                            <small class="text-muted">{{article[0].nickname}}</small>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="item.post_layout=='MIXED'" class="row">
+                    <div class="col-12 col-md-8">
+                        <div [innerHTML]="currentBody | safe: 'html'"></div>
+                        <div *ngIf="currentVideo">
+                            <div class="video"><iframe [src]="currentVideo | safe: 'youtubeUrl'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+                        </div>
+                    </div>
+                    <div *ngIf="article[0].post_images" class="col-12 col-md-4">
+                        <div *ngFor="let photo of article[0].post_images">
+                            <img [src]="photo.photo" class="image"/>
+                            <p>{{photo.name}}</p>
+                        </div>
+                    </div>
+                    <div class="col-12 text-right">
+                        <small class="text-muted">{{article[0].nickname}}</small>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="editmode" class="edit">
+                <form [formGroup]="updatePostForm" #updatePost="ngForm" (ngSubmit)="onUpdateSubmit()">
+                    <!-- <div class="row">
+                        <div class="col-12 text-input">
+                        </div>
+                    </div> -->
+                    <div class="row text-input">
+                        <div class="col-12 col-lg-7">
+                            <label>Title</label>
+                            <input type="text" name="title" class="w-100" formControlName="title" [(ngModel)]="item.post_title" />
+                        </div>
+                        <div class="col-5 col-lg-2">
+                            <label>Catagory: </label>
+                            <select name="catagory" class="w-100" formControlName="catagory" [(ngModel)]="selectedCatagory">
+                                <option *ngFor="let cata of catas" [ngValue]="cata">{{cata}}</option>
+                            </select>
+                        </div>
+                        <div class="col-7 col-lg-3">
+                            <div class="layout-cell">
+                                <label>Layout: </label>
+                                <select name="layout" class="w-100" formControlName="layout" [(ngModel)]="selectedLayout" (ngModelChange)="layoutChange($event)">
+                                    <option *ngFor="let ltype of layouts" [ngValue]="ltype">{{ltype}}</option>
+                                </select>
+                            </div>
+                            <div class="layout-cell layout-image align-top">
+                                <img [src]="'./assets/images/site/'+selectedLayout+'.png'" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-input">
+                        <div class="col-12">
+                            <label>Review Content</label>
+                            <quill-editor formControlName="review" class="ql-wrapper" [(modules)]="rte_modules" [(ngModel)]="item.post_body"></quill-editor>
+                        </div>
+                    </div>
+                    <div class="row text-input">
+                        <div *ngFor="let p_box of [0,1,2]" class="col-12 col-md-6 col-lg-4 h-100 img-wrapper">
+                            <img *ngIf="article[0].post_images[p_box]" [src]="article[0].post_images[p_box].photo" class="image" (error)="errorImageUrl2($event,p_box)" />
+                            <input *ngIf="article[0].post_images[p_box]" type="text" formControlName="{{'imageUrl'+p_box}}" [(ngModel)]="article[0].post_images[p_box].photo" class="image-input" (ngModelChange)="imgUrlUpdate($event,p_box)">
+                            <input *ngIf="article[0].post_images[p_box]" type="text" formControlName="{{'imageName'+p_box}}" [(ngModel)]="article[0].post_images[p_box].name" class="image-input">
+
+                            <div *ngIf="!article[0].post_images[p_box]">
+                                <img *ngIf="tempImageBox[p_box].photo" [src]="tempImageBox[p_box].photo" class="image greyout" (error)="errorImageUrl($event,p_box)" />
+                                <!-- <img *ngIf="tempImageBox[p_box].photo" [src]="tempImageBox[p_box].photo" class="image greyout" /> -->
+                                <i class="reicon icon-doc-add"></i>Add Image {{tempImageBox[p_box].err}}
+                            </div>
+                            <input *ngIf="!article[0].post_images[p_box]" type="text" formControlName="{{'imageUrl'+p_box}}" class="image-input" placeholder="Image URL" (ngModelChange)="imgUrlUpdate($event,p_box)">
+                            <input *ngIf="!article[0].post_images[p_box]" type="text" formControlName="{{'imageName'+p_box}}" [(ngModel)]="tempImageBox[p_box].name" class="image-input" placeholder="Image Description">
+                        </div>
+                    </div>
+                    <div class="row text-input">
+                        <div class="col-12">
+                            <label>Video URL</label>
+                            <input type="text" name="videourl" class="w-100" formControlName="video" [(ngModel)]="item.post_video_url" />
+                        </div>
+                    </div>
+                    <div class="row bottom-wrapper">
+                        <div class="col-2 text-left align-middle">
+                            <div *ngIf="editmode" class="btn-cancel reicon icon-cancel-alt" (click)="toggleEdit()"></div>
+                        </div>
+                        <div class="col-10 text-center">
+                            <input type="submit" name="submit" class="btn-submit" />
+                        </div>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="article.length <= 0">
+    <h1></h1>
+</div>

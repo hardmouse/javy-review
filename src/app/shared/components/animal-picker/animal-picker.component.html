@@ -1,0 +1,11 @@
+
+<div class="wrapper">
+    <div class="spec"><p>animal-picker works!</p></div>
+  <label>{{ value }}</label>
+  <input [type]="type"
+         [placeholder]="placeholder"
+         [value]="value"
+         [disabled]="disabled"
+         (input)="onChange($event.target.value)"
+         (blur)="onTouched()" />
+  </div>

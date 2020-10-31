@@ -1,0 +1,15 @@
+<form [formGroup]="userLoginForm" #userLogin="ngForm" (ngSubmit)="onSubmit()">
+    <div *ngIf="!loggedUser" class="input-area align-top">
+        <input type="text" name="loginId" formControlName="loginId" placeholder="email or ID" />
+        <input type="password" name="passwd" formControlName="passwd" placeholder="Password" />
+        <input type="submit" value="GO!" name="Login" class="btn-framed" />
+    </div>
+</form>
+<div *ngIf="loggedUser" class="user-info">
+    <!-- Hi! {{loggedUser}}  -->
+    <span (click)="logout()" class="btn-framed">LOGOUT</span>
+</div>
+
+<div class="user-info">
+    <!-- {{user$}} -->
+</div>

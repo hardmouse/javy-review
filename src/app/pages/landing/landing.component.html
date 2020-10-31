@@ -1,0 +1,58 @@
+<div class="row">
+
+    <div class="col-12 col-md-8">
+        <div *ngIf="!addUserMode">
+            <div *ngFor="let post of _posts | slice:0:120; let i=index" class="article-box" [ngStyle]="{'border-left-color':'#'+post.color}" [routerLink]="'/article/'+post.post_uid">
+                <div *ngIf="post.post_images.length>0" class="img-wrapper">
+                    <img *ngIf="post.post_images[0]" [src]="post.post_images[0].photo" />
+                </div>
+                <div class="txt-wrapper" [ngClass]="{'full-txt-width':post.post_images.length<=0}">
+                    <h4>{{post.post_title}}</h4>
+                    <p>{{post.post_body | slice:0:120}}</p>
+                </div>
+                <div *ngIf="currentUserId==post.post_user_id" class="my-info"><i class="reicon icon-location float-icon white-frame-shade"></i></div>
+            </div>
+            <hr style="border-bottom: 1rem dashed #fff;" />
+            <div (click)="addUserToggle()" class="link"><i class="reicon icon-user-add"></i> JOIN</div>
+        </div>
+
+        <div *ngIf="addUserMode">
+            <app-join></app-join>
+            <hr style="border-bottom: 1rem dashed #fff;" />
+            <div (click)="addUserToggle()" class="link"><i class="reicon icon-left-outline"></i> BACK</div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4" [ngClass]="{'right-short':addUserMode}">
+        <div *ngFor="let user of _users | slice:0:120; let i=index" class="bottom-padding">
+            <div class="user h-100" 
+                [ngClass]="{'grayout':user.state!='activated'}" 
+                [ngStyle]="{'border-left-color':'#'+user.color}" 
+                [routerLink]="user.state=='activated'?'/blog/'+user.id:''">
+                <h5>{{i+1}} ) {{user.nickname}}</h5>
+                <div class="content">
+                    <!-- <span *ngFor="let img of post.photo_url"> -->
+                    <img [src]="user.image?'/assets/images/users/'+user.image:'/assets/images/users/happyface.png'" class="white-frame-shade"/>
+                    <!-- </span> -->
+                    <div class="profile">
+                        <p><i class="reicon icon-star-filled" *ngIf="user.state=='activated'"></i> {{user.title}}</p>
+                        <p><i class="reicon icon-flag-filled" *ngIf="user.state=='activated'"></i><span>{{user.description}}</span></p>
+                        <p><i class="reicon icon-globe-alt" *ngIf="user.state=='activated'"></i> {{user.avatar}}</p>
+                        <p><i class="reicon icon-crown" *ngIf="user.state=='activated'"></i> {{user.reward}}</p>
+                        <p><i class="reicon icon-certificate" *ngIf="user.state=='activated'"></i> {{user.points}}</p>
+                        <!-- <p [ngStyle]="{'border-left':'5px solid #'+user.extra[2], 'background-color':'#'+user.extra[3]}">{{user.extra[1]}} - {{user.extra[2]}}</p> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+    </div>
+    
+</div>
+<!-- <ul style="color: burlywood;">
+    <li *ngFor="let user of users | async">
+        {{user.nick}}
+    </li>
+</ul> -->

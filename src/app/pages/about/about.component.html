@@ -1,0 +1,30 @@
+<div class="row no-gutters about" *ngFor="let num of aboutNum">
+    <div class="col-12 col-sm-6">
+        111
+    </div>
+    <div class="col-12 col-sm-6">
+        222
+    </div>
+</div>
+<hr />
+<form [formGroup]="customInputForm">
+
+    <app-animal-picker label="Default component (not connected to form)">
+    </app-animal-picker>
+    
+    <app-animal-picker label="Email address" 
+                    placeholder="example@mail.com"
+                    formControlName="email">
+    </app-animal-picker>
+    
+    <app-animal-picker label="Full name" 
+                    placeholder="John Doe"
+                    formControlName="fullname">
+    </app-animal-picker>
+    
+    <app-animal-picker label="Phone number" 
+                    formControlName="phone">
+    </app-animal-picker>
+    
+</form>
+<pre><code>{{ customInputForm.value | json }}</code></pre>

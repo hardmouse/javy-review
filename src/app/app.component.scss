@@ -1,0 +1,72 @@
+@import './src/assets/styles/variables.scss';
+
+app-header{
+    background-color:$baseColor;
+    padding: .5rem 0;
+    z-index: 1;
+}
+app-footer{
+    background-color:$baseColor;
+    padding: 1rem 0;
+    color: #FFF;
+}
+main{
+    // background-color:$fadeColor;
+    background: $fadeColor;
+    background: linear-gradient(0deg, rgba(51,0,153,1) 0%, rgba(82,23,201,1) 10%, rgba(82,23,201,1) 90%, rgba(51,0,153,1) 100%);
+    padding: 0;
+}
+
+#animatedBackground {
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    // bottom: 0;
+    left: 0;
+    background-color: #FFF;
+    background: url("/assets/images/site/bgtree.png");
+    background-repeat: repeat-x;
+    // background-position: bottom 100Vh right 0;
+    // background-size: 30rem 20vh;
+     background-position: 0 0, right bottom;
+  /*adjust s value for speed*/
+    animation: animatedBackground 200s linear infinite;
+  }
+  
+  @keyframes animatedBackground {
+    from {
+      background-position: 0 0;
+    }
+  /*use negative width if you want it to flow right to left else and positive for left to right*/
+    to {
+      background-position: -1000px 0;
+    }
+  }
+
+@media (min-width: 576px) {
+}
+  
+@media (min-width: 768px) {
+    app-header{
+        padding: .5rem 2rem;
+    }
+    app-footer{
+        padding: 2rem;
+    }
+    main{
+        padding: 2rem;
+    }
+}
+
+@media (min-width: 992px) {
+    
+}
+
+@media (min-width: 1200px) {
+}
+
+@media (min-width: 1520px) {
+}
+
+@media (min-width: 1920px) {
+}

@@ -1,0 +1,45 @@
+<div class="container">
+    <header>
+        <app-profile class="profile" *ngIf="currentUserId>0 && profileOver" [curentUser]="currentUserData"></app-profile>
+        <img [src]="'./../../assets/images/users/'+userImage" 
+            (mouseover)="profileOver=true"
+            (mouseout)="profileOver=false" class="avatar white-frame-shade" [ngClass]="{'over':mouseOver}" />
+        <div class="title-nav">
+            <h1 (mouseover)="mouseOver=true" (mouseout)="mouseOver=false">
+                <a routerLink="/">
+                    <span *ngIf="title">{{title}} Review</span>
+                </a>
+            </h1>
+            <nav class="" style="color:#fff">
+                <ul>
+                    <li>
+                        <a routerLink="/landing">Main</a>
+                    </li>
+                    <li>
+                        <a routerLink="/contact">Contact</a>
+                    </li>
+                    <li>
+                        <a routerLink="/about">About</a>
+                    </li>
+                    <!-- <li>
+                        <span (click)="checkVal()">CHECK</span>
+                    </li> -->
+                    <!-- <li>
+                        <span>{{userService.getUser().nick}}</span>
+                    </li>
+                    <li>
+                        {{userService.getUser().access}}
+                    </li> -->
+                </ul>
+            </nav>
+            <app-login></app-login>
+
+        </div>
+    </header>
+    <!-- <ul style="color: burlywood;">
+        <li>{{users.nick}}</li>
+        <li *ngFor="let user of users | async">
+            {{user.nick}}
+        </li>
+    </ul> -->
+</div>

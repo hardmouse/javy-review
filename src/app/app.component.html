@@ -1,0 +1,11 @@
+<div class="main-wrapper">
+  <app-header [title]="title" [userImage]="'reviews.png'" [ngStyle]="{'background-color':'#'+darkColor}"></app-header>
+  <!-- <main [ngStyle]="{'background-color':'#'+themeColor}"> -->
+  <main>
+    <div class="container">
+    <!-- <div id="animatedBackground"></div> -->
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+  <app-footer [ngStyle]="{'background-color':'#'+darkColor}"></app-footer>
+</div>
