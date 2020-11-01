@@ -234,3 +234,15 @@ Stack trace:
 [22-Oct-2020 02:08:06 UTC] PHP Warning:  mysqli_query(): Empty query in /home/hardm3/javy.hardmouse.com/cgi-bin/userlogin.php on line 32
 [23-Oct-2020 00:13:45 UTC] PHP Warning:  mysqli_query(): Empty query in /home/hardm3/javy.hardmouse.com/cgi-bin/userlogin.php on line 32
 [23-Oct-2020 00:34:35 UTC] PHP Warning:  mysqli_query(): Empty query in /home/hardm3/javy.hardmouse.com/cgi-bin/userlogin.php on line 32
+[26-Oct-2020 22:29:16 UTC] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, boolean given in /home/hardm3/javy.hardmouse.com/cgi-bin/articleupdate.php on line 61
+[26-Oct-2020 22:29:53 UTC] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, boolean given in /home/hardm3/javy.hardmouse.com/cgi-bin/articleupdate.php on line 61
+[26-Oct-2020 22:30:38 UTC] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, boolean given in /home/hardm3/javy.hardmouse.com/cgi-bin/articleupdate.php on line 61
+[26-Oct-2020 22:40:17 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function mysql_real_escape_string() in /home/hardm3/javy.hardmouse.com/cgi-bin/articleupdate.php:41
+Stack trace:
+#0 {main}
+  thrown in /home/hardm3/javy.hardmouse.com/cgi-bin/articleupdate.php on line 41
+[26-Oct-2020 22:40:43 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function mysql_real_escape_string() in /home/hardm3/javy.hardmouse.com/cgi-bin/articleupdate.php:41
+Stack trace:
+#0 {main}
+  thrown in /home/hardm3/javy.hardmouse.com/cgi-bin/articleupdate.php on line 41
+[30-Oct-2020 14:48:35 UTC] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in /home/hardm3/javy.hardmouse.com/cgi-bin/getallposts.php on line 38
