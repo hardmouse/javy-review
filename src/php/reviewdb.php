@@ -6,9 +6,9 @@ header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
  
 
 define('DB_HOST', 'hardmouse.com');
-define('DB_USER', 'hardm3_javy');
-define('DB_PASS', 'irene@0408');
-define('DB_NAME', 'hardm3_javyreview');
+define('DB_USER', 'hardm4_javys');
+define('DB_PASS', 'Ivy@0905');
+define('DB_NAME', 'hardm4_javysreview');
 function connect()
 {
   $connect = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);

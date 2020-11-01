@@ -5,9 +5,9 @@ header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 
 function OpenCon(){
     $host = 'hardmouse.com';
-    $user = 'hardm3_javy';
+    $user = 'hardm5_javys';
     $passwd = 'irene@0408';
-    $database = 'hardm3_javyreview';
+    $database = 'hardm5_javysreview';
     $connect = new mysqli($host, $user, $passwd, $database);
  
     if ($connect->connect_error) {
