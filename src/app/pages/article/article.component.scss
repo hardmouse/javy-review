@@ -96,6 +96,9 @@
     .user-reply{
         border-bottom: #c5ad4e 1px dotted;
         padding: 0.5rem 1rem;
+        .reply-body{
+            padding-left: 1rem;
+        }
     }
 }
 @media (min-width: 576px) {

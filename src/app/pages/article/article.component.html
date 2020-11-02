@@ -43,7 +43,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div [innerHTML]="currentBody | safe: 'html'" class="col-12"></div>
+                        <div [innerHTML]="articleBody | safe: 'html'" class="col-12"></div>
                         <div class="col-12" *ngIf="currentVideo">
                             <div class="video"><iframe [src]="currentVideo | safe: 'youtubeUrl'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
                         </div>
@@ -54,7 +54,7 @@
                 </div>
                 <div *ngIf="item.post_layout=='MIXED'" class="row">
                     <div class="col-12 col-md-8">
-                        <div [innerHTML]="currentBody | safe: 'html'"></div>
+                        <div [innerHTML]="articleBody | safe: 'html'"></div>
                         <div *ngIf="currentVideo">
                             <div class="video"><iframe [src]="currentVideo | safe: 'youtubeUrl'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
                         </div>
@@ -144,12 +144,12 @@
                 <div *ngIf="currentUserData.user>0" class="col-12 user-reply-input">
                     <form [formGroup]="replyForm" #replyPost="ngForm" (ngSubmit)="onReplySubmit()">
                         <quill-editor formControlName="userReply" class="ql-wrapper" [(modules)]="reply_rte_modules"></quill-editor>
-                        <input type="submit" class="btn-framed">
+                        <input type="submit" value="post my feedback" class="btn-framed-dark" />
                     </form>
                 </div>
                 <div *ngFor="let reply of totalReply" class="col-12 user-reply">
-                    <p>{{reply.reply_content}}.</p>
-                    <p><i class="reicon icon-user"></i>{{reply.nickname}} <i class="reicon icon-calendar"></i>{{reply.reply_date}}</p>
+                    <div class="text-left small"><i class="reicon icon-user"></i>{{reply.nickname}} - {{reply.reply_date}}</div>
+                    <div [innerHTML]="reply.reply_content | safe: 'html'" class="reply-body"></div>
                 </div>
             </div>
         </div>

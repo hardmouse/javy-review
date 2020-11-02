@@ -45,7 +45,7 @@ export class ArticleComponent implements OnInit, AfterViewInit, OnDestroy {
   rte_modules:any;
   reply_rte_modules:any;
   currentVideo:string = "";
-  currentBody:string = "";
+  articleBody:string = "";
   private _articleAPI = `${environment.apiUrl}getarticle.php`;
   private _updateAPI = `${environment.apiUrl}articleupdate.php`;
   private _replyAPI = `${environment.apiUrl}replysubmit.php`;
@@ -58,6 +58,10 @@ export class ArticleComponent implements OnInit, AfterViewInit, OnDestroy {
   catas = this.reTypes['post_type'];
   layouts = this.reTypes['post_layout'];
   ngOnInit(): void {
+    this.settleUserData();
+    this.rte_modules = this.globalVar.rte_modules;
+    this.reply_rte_modules = this.globalVar.reply_rte_modules;
+
     this.updatePostForm = new FormGroup({
       catagory: new FormControl(),
       title: new FormControl(),
@@ -71,12 +75,11 @@ export class ArticleComponent implements OnInit, AfterViewInit, OnDestroy {
       video: new FormControl(),
       review: new FormControl()
     });
+
     this.replyForm = new FormGroup({
       userReply: new FormControl()
     });
 
-    this.rte_modules = this.globalVar.rte_modules;
-    this.reply_rte_modules = this.globalVar.reply_rte_modules;
     this.subscriptions.push(
       this.route.params.subscribe(paramsVal =>{
         let _sid = JSON.parse(localStorage.getItem("review-user"));
@@ -84,60 +87,52 @@ export class ArticleComponent implements OnInit, AfterViewInit, OnDestroy {
           this.currentArticleID = paramsVal.id;
           this._articleAPI += "?article="+paramsVal.id+"&sid="+_sid.token;
           this._replyGetAPI += "?article="+paramsVal.id;
+          this._feedAPI += "?article="+this.currentArticleID;
 
-
-          
-          this.subscriptions.push( 
-            this.getJSON(this._articleAPI).subscribe(data => {
-              this.article = data;
-              for(let i = 0 ;i< this.article.length; i++){
-                this.currentArticleUserID = this.article[i].post_user_id;
-                if(this.article[i].post_images){
-                  this.article[i].post_images = JSON.parse(this.article[i].post_images);
-                }
-                for (var key of Object.keys(this.tempImageBox)) {
-                  if(this.article[i].post_images[key]){
-                    this.tempImageBox[key] = this.article[i].post_images[key];
-                    if (this.tempImageBox[key].photo.substring(0, 7) !== 'http://' && this.tempImageBox[key].photo.substring(0, 8) !== 'https://' ){
-                      this.tempImageBox[key].photo = `${environment.imgUrl}`+this.article[i].post_catagory+`/`+this.tempImageBox[key].photo;
-                    }
-                  }
-                }
-                this.currentBody = this.funcs.removeImg(this.article[i].post_body);
-                if(this.article[i].post_edit_date){
-                  this.editdate = this.article[i].post_edit_date;
-                }
-                if(this.article[i].post_catagory){
-                  this.selectedCatagory = this.article[i].post_catagory;
-                }
-                if(this.article[i].post_layout){
-                  this.selectedLayout = this.article[i].post_layout;
-                }
-                this.currentVideo = this.funcs.checkVideoUrl(this.article[i].post_video_url);
-              }
-              console.log("article:",data);
-            })
-          );
-          
-          this.subscriptions.push( 
-            this.getJSON(this._replyGetAPI).subscribe(data => {
-              this.totalReply = data;
-              console.log(this.totalReply);
-            })
-          );
+          this.settleArticle();
+          this.settleReply();
+          this.settleFeed();
         }
       })
     );
+    
 
-    this.subscriptions.push(
-      // this.userService.userData.pipe(filter(data => data.token!="")).subscribe(data=>{
-      this.userService.userData.subscribe(data=>{
-        this.currentUserData = data;
-        // console.log("ARTICLE.currentUserData >>>>>>>>>",this.currentUserData);
+    
+  }
+  settleArticle(){
+    this.subscriptions.push( 
+      this.getJSON(this._articleAPI).subscribe(data => {
+        this.article = data;
+        for(let i = 0 ;i< this.article.length; i++){
+          this.currentArticleUserID = this.article[i].post_user_id;
+          if(this.article[i].post_images){
+            this.article[i].post_images = JSON.parse(this.article[i].post_images);
+          }
+          for (var key of Object.keys(this.tempImageBox)) {
+            if(this.article[i].post_images[key]){
+              this.tempImageBox[key] = this.article[i].post_images[key];
+              if (this.tempImageBox[key].photo.substring(0, 7) !== 'http://' && this.tempImageBox[key].photo.substring(0, 8) !== 'https://' ){
+                this.tempImageBox[key].photo = `${environment.imgUrl}`+this.article[i].post_catagory+`/`+this.tempImageBox[key].photo;
+              }
+            }
+          }
+          this.articleBody = this.funcs.removeImg(this.article[i].post_body);
+          if(this.article[i].post_edit_date){
+            this.editdate = this.article[i].post_edit_date;
+          }
+          if(this.article[i].post_catagory){
+            this.selectedCatagory = this.article[i].post_catagory;
+          }
+          if(this.article[i].post_layout){
+            this.selectedLayout = this.article[i].post_layout;
+          }
+          this.currentVideo = this.funcs.checkVideoUrl(this.article[i].post_video_url);
+        }
+        console.log("article:",data);
       })
     );
-
-    this._feedAPI += "?article="+this.currentArticleID;
+  }
+  settleFeed(){
     this.subscriptions.push( 
       this.getJSON(this._feedAPI).subscribe(data => {
         this.feedback = data;
@@ -146,6 +141,22 @@ export class ArticleComponent implements OnInit, AfterViewInit, OnDestroy {
         //   this.article[i].photo_url = JSON.parse(this.article[i].photo_url);
         // }
         this.setFeed(this.feedback);
+      })
+    );
+  }
+  settleReply(){
+    this.subscriptions.push( 
+      this.getJSON(this._replyGetAPI).subscribe(data => {
+        this.totalReply = data;
+        console.log(this.totalReply);
+      })
+    );
+  }
+  settleUserData(){
+    this.subscriptions.push(
+      this.userService.userData.subscribe(data=>{
+        this.currentUserData = data;
+        // console.log("ARTICLE.currentUserData >>>>>>>>>",this.currentUserData);
       })
     );
   }
@@ -241,10 +252,12 @@ export class ArticleComponent implements OnInit, AfterViewInit, OnDestroy {
     data.replyUserNick = this.currentUserData.nick;
     data.replyUserToken = this.currentUserData.token;
     data.replyArticleId = this.currentArticleID;
+    console.log(data);
     if(data.userReply){
       this.subscriptions.push( 
         this.postMyFeed(this._replyAPI,data).subscribe(replyFeed => {
           console.log("replyFeed:",replyFeed);
+          this.refreshPage();
         })
       );
     }else{

@@ -52,6 +52,25 @@ textarea, input, select{
     top: -1px;
     left: -2px;
 }
+.btn-framed-dark{
+    position: relative;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    color:$baseColor;
+    font-family: 'Bangers';
+    padding: 0.1rem 1rem;
+    border: 2px$baseColor solid;
+    border-radius: 0.5rem;
+    transition: all 0.1s;
+    background-color: transparent;
+}
+.btn-framed-dark:hover{
+    color: #FFF;
+    background-color:$baseColor;
+    top: -1px;
+    left: -2px;
+}
 
 .btn-edit{
     position: relative;
