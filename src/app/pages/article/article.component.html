@@ -134,8 +134,23 @@
                             <input type="submit" name="submit" class="btn-submit" />
                         </div>
                     </div>
-                    
                 </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="container">
+            <div class="row reply-wrapper">
+                <div *ngIf="currentUserData.user>0" class="col-12 user-reply-input">
+                    <form [formGroup]="replyForm" #replyPost="ngForm" (ngSubmit)="onReplySubmit()">
+                        <quill-editor formControlName="userReply" class="ql-wrapper" [(modules)]="reply_rte_modules"></quill-editor>
+                        <input type="submit" class="btn-framed">
+                    </form>
+                </div>
+                <div *ngFor="let reply of totalReply" class="col-12 user-reply">
+                    <p>{{reply.reply_content}}.</p>
+                    <p><i class="reicon icon-user"></i>{{reply.nickname}} <i class="reicon icon-calendar"></i>{{reply.reply_date}}</p>
+                </div>
             </div>
         </div>
     </div>

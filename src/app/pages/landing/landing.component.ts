@@ -64,7 +64,7 @@ export class LandingComponent implements OnInit, OnDestroy{
             if(this._posts[i].post_images[key].photo){
               if (this._posts[i].post_images[key].photo.substring(0, 7) !== 'http://' && this._posts[i].post_images[key].photo.substring(0, 8) !== 'https://' ){
                 // console.log("NO HTTP:",this._posts[i].post_images[key].photo);
-                this._posts[i].post_images[key].photo = 'https://javy.hardmouse.com/assets/images/'+this._posts[i].post_catagory+'/'+this._posts[i].post_images[key].photo;
+                this._posts[i].post_images[key].photo = `${environment.imgUrl}`+this._posts[i].post_catagory+`/`+this._posts[i].post_images[key].photo;
               }
               // else{
               //   console.log("HAS HTTP:",this._posts[i].post_images[key].photo);

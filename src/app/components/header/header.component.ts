@@ -6,7 +6,7 @@ import { User } from './../../models/user.model';
 import { Store } from '@ngrx/store';
 import { AppState } from './../../app.state';
 import { Observable, Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -38,9 +38,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // prevent Error:ExpressionChangedAfterItHasBeenCheckedError: Expression has changed after it was checked.
-    setTimeout(() => {
+    // setTimeout(() => {
       this.recheckUser();
-    }, 0)
+    // }, 0)
   }
 
   ngOnDestroy() {
@@ -59,7 +59,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     // }
     this.subscriptions.push(
       // this.userService.userData.pipe(filter(data => data.token!="")).subscribe(data=>{
-      this.userService.userData.subscribe(data=>{
+      this.userService.userData.pipe(delay(0)).subscribe(data=>{
         this.currentUserData = data;
         this.currentUserId = data.user;
         this.title = data.nick;

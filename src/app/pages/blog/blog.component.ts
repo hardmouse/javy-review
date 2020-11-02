@@ -79,7 +79,7 @@ export class BlogComponent implements OnInit, OnDestroy {
       // this.userService.userData.pipe(filter(data => data.token!="")).subscribe(data=>{
       this.userService.userData.subscribe(data=>{
         this.currentUserData = data;
-        console.log("BLOG.currentUserData >>>>>>>>>",this.currentUserData);
+        console.log("BLOG.currentUserData >>>",this.currentUserData);
       })
     );
     this.initTags();
@@ -93,12 +93,8 @@ export class BlogComponent implements OnInit, OnDestroy {
   }
   initTags() {
     for(let i of Object.keys(this.catas)){
-      // let _v = JSON.parse("{\"name\":\""+this.catas[i]+"\",\"val\":true}");
-      // this.tags.push(_v);
-      // console.log(_v);
       this.tags[i]=JSON.parse("{\"name\":\""+this.catas[i]+"\",\"val\":true}");
     }
-    console.log("T:",this.tags);
   }
   charCountFunc(e){
     this.charCount = e.length -7;
@@ -112,7 +108,7 @@ export class BlogComponent implements OnInit, OnDestroy {
         if(paramsVal.id){
           this._getReviewAPI += "?user="+paramsVal.id+"&sid="+_sid.token+"&numb="+this.maxArticle+"&page="+this.currentPage;
           this.postOwner = paramsVal.id;
-          let _post = this.subscriptions.push( 
+          this.subscriptions.push( 
             this.getJSON(this._getReviewAPI).subscribe(data => {
               this.posts = data;
               for(let i = 0 ;i< this.posts.length; i++){
@@ -121,17 +117,14 @@ export class BlogComponent implements OnInit, OnDestroy {
                 }
                 for (var key of Object.keys(this.posts[i].post_images)) {
                   if(this.posts[i].post_images[key].photo){
-                    if (this.posts[i].post_images[key].photo.substring(0, 7) === 'http://' || this.posts[i].post_images[key].photo.substring(0, 8) === 'https://' ){
-                      
-                    }else{
-                      this.posts[i].post_images[key].photo = 'https://javy.hardmouse.com/assets/images/'+this.posts[i].post_catagory+'/'+this.posts[i].post_images[key].photo;
+                    if (this.posts[i].post_images[key].photo.substring(0, 7) !== 'http://' && this.posts[i].post_images[key].photo.substring(0, 8) !== 'https://' ){
+                      this.posts[i].post_images[key].photo = `${environment.imgUrl}`+this.posts[i].post_catagory+`/`+this.posts[i].post_images[key].photo;
                     }
-                  }else{
                   }
                 }
-                console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",this.posts[i].nickname);
+                // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",this.posts[i].nickname);
                 this.postOwnerName = this.posts[i].nickname;
-                console.log(">>>>>>>>>this.postOwnerName>>>>>>>>>>>>>>>",this.postOwnerName);
+                // console.log(">>>>>>>>>this.postOwnerName>>>>>>>>>>>>>>>",this.postOwnerName);
                 this.posts[i].post_body = this.funcs.stripHTML(this.posts[i].post_body);
                 this.posts[i].delete=false;
                 this.totalPostNumber = this.posts[i].totalPost;
@@ -139,7 +132,7 @@ export class BlogComponent implements OnInit, OnDestroy {
               for(let i=0;i< Math.ceil(this.totalPostNumber/this.maxArticle);i++){
                 this.totalPages.push(i);
               }
-              console.log("hh:",this.posts,":",this.totalPages);
+              // console.log("hh:",this.posts,":",this.totalPages);
             })
           );
         }
@@ -160,7 +153,7 @@ export class BlogComponent implements OnInit, OnDestroy {
               if (data[i].post_images[key].photo.substring(0, 7) === 'http://' || data[i].post_images[key].photo.substring(0, 8) === 'https://' ){
                 
               }else{
-                data[i].post_images[key].photo = 'https://javy.hardmouse.com/assets/images/'+data[i].post_catagory+'/'+data[i].post_images[key].photo;
+                data[i].post_images[key].photo = `${environment.imgUrl}`+data[i].post_catagory+`/`+data[i].post_images[key].photo;
               }
             }
           }

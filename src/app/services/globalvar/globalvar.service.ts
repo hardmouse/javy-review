@@ -31,5 +31,14 @@ export class GlobalvarService {
       // ['link', 'image', 'video']                         // link and image, video
     ]
   };
+  public reply_rte_modules = {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike'],
+      ['blockquote', 'code-block'],
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      ['clean'], 
+      ['link']
+    ]
+  };
   
 }

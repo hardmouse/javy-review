@@ -38,9 +38,7 @@ export class UserService {
   }
   public setUser(data:any){
     this.userSource.next(data);
-    console.log("this.userSource.value:",this.userSource.value);
-    // console.log("data:",data);
-    // console.log("this.userData:",this.userData);
+    console.log("userSource:",this.userSource.value);
   }
   getUser(){
     return this.userSource.value;

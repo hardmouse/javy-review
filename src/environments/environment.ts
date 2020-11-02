@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://javy.hardmouse.com/cgi-bin/'
+  apiUrl: 'https://javy.hardmouse.com/cgi-bin/',
+  imgUrl: 'https://javy.hardmouse.com/assets/images/'
 };
 
 /*

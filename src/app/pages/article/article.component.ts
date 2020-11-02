@@ -18,6 +18,7 @@ import { environment } from './../../../environments/environment';
 export class ArticleComponent implements OnInit, AfterViewInit, OnDestroy {
 
   updatePostForm: FormGroup;
+  replyForm: FormGroup;
   constructor(
     public userService : UserService,
     private http: HttpClient,
@@ -35,16 +36,20 @@ export class ArticleComponent implements OnInit, AfterViewInit, OnDestroy {
   currentArticleID = null;
   currentArticleUserID = null;
   totalFeed = [];
+  totalReply = [];
   editmode:boolean=false;
   editdate = null;
   selectedCatagory = null;
   selectedLayout = null;
   currentUserData:any;
   rte_modules:any;
+  reply_rte_modules:any;
   currentVideo:string = "";
   currentBody:string = "";
   private _articleAPI = `${environment.apiUrl}getarticle.php`;
   private _updateAPI = `${environment.apiUrl}articleupdate.php`;
+  private _replyAPI = `${environment.apiUrl}replysubmit.php`;
+  private _replyGetAPI = `${environment.apiUrl}getreply.php`;
   private _feedAPI = `${environment.apiUrl}getfeed.php`;
   private _feedPostAPI = `${environment.apiUrl}addfeed.php`;
   private _deleteArticleAPI = `${environment.apiUrl}deletearticle.php`;
@@ -66,14 +71,22 @@ export class ArticleComponent implements OnInit, AfterViewInit, OnDestroy {
       video: new FormControl(),
       review: new FormControl()
     });
+    this.replyForm = new FormGroup({
+      userReply: new FormControl()
+    });
 
     this.rte_modules = this.globalVar.rte_modules;
+    this.reply_rte_modules = this.globalVar.reply_rte_modules;
     this.subscriptions.push(
       this.route.params.subscribe(paramsVal =>{
         let _sid = JSON.parse(localStorage.getItem("review-user"));
         if(paramsVal.id){
           this.currentArticleID = paramsVal.id;
           this._articleAPI += "?article="+paramsVal.id+"&sid="+_sid.token;
+          this._replyGetAPI += "?article="+paramsVal.id;
+
+
+          
           this.subscriptions.push( 
             this.getJSON(this._articleAPI).subscribe(data => {
               this.article = data;
@@ -82,26 +95,12 @@ export class ArticleComponent implements OnInit, AfterViewInit, OnDestroy {
                 if(this.article[i].post_images){
                   this.article[i].post_images = JSON.parse(this.article[i].post_images);
                 }
-                // else{
-                //   this.article[i].post_images = [];
-                // }
-                    console.clear();
                 for (var key of Object.keys(this.tempImageBox)) {
                   if(this.article[i].post_images[key]){
-                    // console.log("--------------------------------------------------------START MOVE: ",key);
-                    // console.log("article[i]:",this.article[i].post_images[key]);
-                    // console.log("this.tempImageBox",this.tempImageBox[key]);
-                    // console.log(key," has Image, move it...");
                     this.tempImageBox[key] = this.article[i].post_images[key];
-                    // console.log("Now, this.tempImageBox",this.tempImageBox[key]);
-                    // console.log(this.tempImageBox[key],this.article[i].post_images[key]);
-                    if (this.tempImageBox[key].photo.substring(0, 7) === 'http://' || this.tempImageBox[key].photo.substring(0, 8) === 'https://' ){
-                      // console.log("-------------------");
-                    }else{
-                      this.tempImageBox[key].photo = 'https://javy.hardmouse.com/assets/images/'+this.article[i].post_catagory+'/'+this.tempImageBox[key].photo;
+                    if (this.tempImageBox[key].photo.substring(0, 7) !== 'http://' && this.tempImageBox[key].photo.substring(0, 8) !== 'https://' ){
+                      this.tempImageBox[key].photo = `${environment.imgUrl}`+this.article[i].post_catagory+`/`+this.tempImageBox[key].photo;
                     }
-                    // console.log(this.tempImageBox[key],this.article[i].post_images[key]);
-                    // console.log("IN this.tempImageBox ====> ",this.tempImageBox);
                   }
                 }
                 this.currentBody = this.funcs.removeImg(this.article[i].post_body);
@@ -117,6 +116,13 @@ export class ArticleComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.currentVideo = this.funcs.checkVideoUrl(this.article[i].post_video_url);
               }
               console.log("article:",data);
+            })
+          );
+          
+          this.subscriptions.push( 
+            this.getJSON(this._replyGetAPI).subscribe(data => {
+              this.totalReply = data;
+              console.log(this.totalReply);
             })
           );
         }
@@ -224,10 +230,26 @@ export class ArticleComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
   
-  onFormSubmit(data){
-    data.postId = this.currentArticleID;
-    data.userId = 1;
-    this.onSubmit(data,1,this.currentArticleID);
+  // onFormSubmit(data){
+  //   data.postId = this.currentArticleID;
+  //   data.userId = 1;
+  //   this.onSubmit(data,1,this.currentArticleID);
+  // }
+  onReplySubmit(){
+    let data = this.replyForm.value;
+    data.replyUserId = this.currentUserData.user;
+    data.replyUserNick = this.currentUserData.nick;
+    data.replyUserToken = this.currentUserData.token;
+    data.replyArticleId = this.currentArticleID;
+    if(data.userReply){
+      this.subscriptions.push( 
+        this.postMyFeed(this._replyAPI,data).subscribe(replyFeed => {
+          console.log("replyFeed:",replyFeed);
+        })
+      );
+    }else{
+      console.log("SAY SOMETHING");
+    }
   }
   onFeedClick(_v){
     let data = {};

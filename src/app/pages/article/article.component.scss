@@ -1,5 +1,5 @@
 @import './src/assets/styles/variables.scss';
-.article{
+.article, .reply-wrapper{
     background-color: #FFF;
     padding: 0;
     border-radius: $outter-radius;
@@ -84,6 +84,18 @@
             }
         }
         
+    }
+}
+.reply-wrapper{
+    margin-top: 1rem;
+    background-color: #ecd4ff;
+    .user-reply-input{
+        padding: 1rem;
+        border-bottom: #c5ad4e 1px dotted;
+    }
+    .user-reply{
+        border-bottom: #c5ad4e 1px dotted;
+        padding: 0.5rem 1rem;
     }
 }
 @media (min-width: 576px) {
