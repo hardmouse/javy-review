@@ -10,11 +10,11 @@ $policies = [];
 $inject = " ";
 
 $sql = "
-    SELECT * FROM post_feedback WHERE post_feedback.feed_post_id = $articleID
+    SELECT r.*, u.id, u.nickname FROM post_reply r, user u WHERE r.reply_post_id = $articleID AND r.reply_user_id = u.id
+    ORDER BY r.reply_date DESC
 ";
     
 if($result = mysqli_query($con,$sql)){
-  $i = 0;
   while($row = mysqli_fetch_assoc($result)){
     $policies[] = $row;
   }
@@ -22,6 +22,7 @@ if($result = mysqli_query($con,$sql)){
 }else{
   http_response_code(400);
 }
+
 
 
 
