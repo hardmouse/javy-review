@@ -13,7 +13,7 @@ if (isset($_GET['sid'])) {
     $token = $_GET['sid'];
 }
 
-if(trim($articleID) === '' || trim($token) === ''){
+if(trim($articleID) === ''){
     return http_response_code(400);
 }
 $policies = [];
