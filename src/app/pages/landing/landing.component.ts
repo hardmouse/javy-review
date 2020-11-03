@@ -66,12 +66,9 @@ export class LandingComponent implements OnInit, OnDestroy{
                 // console.log("NO HTTP:",this._posts[i].post_images[key].photo);
                 this._posts[i].post_images[key].photo = `${environment.imgUrl}`+this._posts[i].post_catagory+`/`+this._posts[i].post_images[key].photo;
               }
-              // else{
-              //   console.log("HAS HTTP:",this._posts[i].post_images[key].photo);
-              // }
             }
           }
-          this._posts[i].post_body = this.funcs.stripHTML(this._posts[i].post_body);
+          this._posts[i].post_body = this.funcs.stripHTML(this.funcs.removeImg(this._posts[i].post_body));
           // console.log(this._posts[i]);
         }
         console.log(this._posts);

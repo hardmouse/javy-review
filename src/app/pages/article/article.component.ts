@@ -1,9 +1,9 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, Inject} from '@angular/core';
-// import { DomSanitizer } from "@angular/platform-browser";
+import { Component, OnInit, AfterViewInit, OnDestroy, Inject, ViewChild, ElementRef} from '@angular/core';
 import { ActivatedRoute,Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { UserService } from '../../services/user/user.service';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, BehaviorSubject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { FormGroup, FormControl } from '@angular/forms';
 import { GlobalvarService } from '../../services/globalvar/globalvar.service';
 import { FuncsService } from './../../services/funcs/funcs.service';
@@ -17,6 +17,8 @@ import { environment } from './../../../environments/environment';
 
 export class ArticleComponent implements OnInit, AfterViewInit, OnDestroy {
 
+  private onFeedClick$: BehaviorSubject<any>;
+  @ViewChild('feedBtn') feedBtn: ElementRef;
   updatePostForm: FormGroup;
   replyForm: FormGroup;
   constructor(
@@ -27,12 +29,13 @@ export class ArticleComponent implements OnInit, AfterViewInit, OnDestroy {
     private funcs: FuncsService,
     private _router: Router,
     @Inject('REVIEWTYPE') public reTypes: any[]
-  ) { }
+  ) {
+    this.onFeedClick$ = new BehaviorSubject<any>({});
+  }
 
   article = [];
   feedback = [];
   tempImageBox = [{"photo":null,"name":null,'err':true},{"photo":null,"name":null,'err':true},{"photo":null,"name":null,'err':true}];
-  // tempImageBox = [{},{},{}];
   currentArticleID = null;
   currentArticleUserID = null;
   totalFeed = [];
@@ -54,7 +57,7 @@ export class ArticleComponent implements OnInit, AfterViewInit, OnDestroy {
   private _feedPostAPI = `${environment.apiUrl}addfeed.php`;
   private _deleteArticleAPI = `${environment.apiUrl}deletearticle.php`;
   private subscriptions: Subscription[] = [];
-
+  
   catas = this.reTypes['post_type'];
   layouts = this.reTypes['post_layout'];
   ngOnInit(): void {
@@ -82,12 +85,14 @@ export class ArticleComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.subscriptions.push(
       this.route.params.subscribe(paramsVal =>{
-        let _sid = JSON.parse(localStorage.getItem("review-user"));
+        // let _sid = JSON.parse(localStorage.getItem("review-user"));
+        // console.log("this.currentUserData:",this.currentUserData);
+        let _sid = this.currentUserData;
         if(paramsVal.id){
           this.currentArticleID = paramsVal.id;
           this._articleAPI += "?article="+paramsVal.id+"&sid="+_sid.token;
           this._replyGetAPI += "?article="+paramsVal.id;
-          this._feedAPI += "?article="+this.currentArticleID;
+          this._feedAPI += "?article="+this.currentArticleID+"&cuid="+this.currentUserData.user;
 
           this.settleArticle();
           this.settleReply();
@@ -95,10 +100,8 @@ export class ArticleComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       })
     );
-    
-
-    
   }
+
   settleArticle(){
     this.subscriptions.push( 
       this.getJSON(this._articleAPI).subscribe(data => {
@@ -135,20 +138,15 @@ export class ArticleComponent implements OnInit, AfterViewInit, OnDestroy {
   settleFeed(){
     this.subscriptions.push( 
       this.getJSON(this._feedAPI).subscribe(data => {
-        this.feedback = data;
-        // for(let i = 0 ;i< this.article.length; i++){
-        //   this.article[i].avatar = JSON.parse(this.article[i].avatar);
-        //   this.article[i].photo_url = JSON.parse(this.article[i].photo_url);
-        // }
-        this.setFeed(this.feedback);
+        this.refreshFeed(data);
       })
     );
   }
+
   settleReply(){
     this.subscriptions.push( 
       this.getJSON(this._replyGetAPI).subscribe(data => {
         this.totalReply = data;
-        console.log(this.totalReply);
       })
     );
   }
@@ -160,7 +158,6 @@ export class ArticleComponent implements OnInit, AfterViewInit, OnDestroy {
       })
     );
   }
-  
   public getJSON(_url): Observable<any> {
     return this.http.get(_url);
   }
@@ -169,8 +166,31 @@ export class ArticleComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
+    this.subscriptions.push( 
+      this.onFeedClick$.pipe(debounceTime(500)).subscribe(dataFeed => {
+        dataFeed.postId = this.currentArticleID;
+        dataFeed.userId = this.currentUserData.user;
+        if(dataFeed.feed_type){
+          this.subscriptions.push( 
+            this.postMyFeed(this._feedPostAPI,dataFeed).subscribe(resData => {
+              console.log(resData);
+              this.refreshFeed(resData);
+            })
+          );
+        }
+      })
+    );
   }
-  
+  refreshFeed(_tf){
+    this.totalFeed = _tf;
+    for(let i=0; i<this.totalFeed.length; i++){
+      if(this.totalFeed.hasOwnProperty(this.totalFeed[i].feed_type)){
+        this.totalFeed[this.totalFeed[i].feed_type] += 1;
+      }else{
+        this.totalFeed[this.totalFeed[i].feed_type] = 1;
+      }
+    }
+  }
   imageLayout(_layout){
     switch (_layout){
       case "FULL":
@@ -221,31 +241,7 @@ export class ArticleComponent implements OnInit, AfterViewInit, OnDestroy {
     // this._router.navigate([_url]);
     window.location.reload();
   }
-  setFeed(_data){
-    for(let i=0; i<_data.length; i++){
-      // console.log("F:",_data[i]);
-      if(this.totalFeed.hasOwnProperty(_data[i].feed_type)){
-        this.totalFeed[_data[i].feed_type] += 1;
-      }else{
-        this.totalFeed[_data[i].feed_type] = 1;
-      }
-    }
-    // console.log("total:",this.totalFeed);
-  }
-
-  like(_feed){
-    this.subscriptions.push( 
-      this.postMyFeed(this._feedPostAPI,[_feed, 1]).subscribe(data => {
-        console.log("when post feed:",data)
-      })
-    );
-  }
   
-  // onFormSubmit(data){
-  //   data.postId = this.currentArticleID;
-  //   data.userId = 1;
-  //   this.onSubmit(data,1,this.currentArticleID);
-  // }
   onReplySubmit(){
     let data = this.replyForm.value;
     data.replyUserId = this.currentUserData.user;
@@ -264,21 +260,7 @@ export class ArticleComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log("SAY SOMETHING");
     }
   }
-  onFeedClick(_v){
-    let data = {};
-    data['feedtype'] = _v;
-    this.onSubmit(data,1,this.currentArticleID);
-  }
-  onSubmit(data,user,post){
-    data.postId = post;
-    data.userId = user;
-    console.log(data);
-    this.subscriptions.push( 
-      this.postMyFeed(this._feedPostAPI,data).subscribe(dataFeed => {
-        console.log("dataFeed:",dataFeed);
-      })
-    );
-  }
+  
   onUpdateSubmit(){
     let data = this.updatePostForm.value;
     let _sid = JSON.parse(localStorage.getItem("review-user"));
@@ -302,7 +284,7 @@ export class ArticleComponent implements OnInit, AfterViewInit, OnDestroy {
   deleteArticle(){
     let _sid = JSON.parse(localStorage.getItem("review-user"));
     let _tempAPI = this._deleteArticleAPI += "?article="+this.currentArticleID+"&sid="+_sid.token;
-    let _delete = this.subscriptions.push( 
+    this.subscriptions.push( 
       this.getJSON(_tempAPI).subscribe(data => {
         console.log(data);
         this._router.navigate(['/blog/'+this.currentArticleUserID]);

@@ -17,8 +17,14 @@
                     </div>
                     <div class="row">
                         <div class="col-12 col-md-6">
-                            <ul class="user-feedback">
-                                <li *ngFor="let feedtype of reTypes.feed_type" [ngStyle]="{'background-color':feedtype.color}" (click)="onFeedClick(feedtype.name)">
+                            <ul *ngIf="currentUserData.user>0" class="user-feedback">
+                                <li *ngFor="let feedtype of reTypes.feed_type" [ngStyle]="{'background-color':feedtype.color}" (click)="onFeedClick$.next({'feed_type':feedtype.name})">
+                                    <i class="reicon" [ngClass]="feedtype.icon"></i>
+                                    <span *ngIf="totalFeed[feedtype.name]">{{totalFeed[feedtype.name]}}</span>
+                                </li>
+                            </ul>
+                            <ul *ngIf="currentUserData.user<=0" class="non-user-feedback">
+                                <li *ngFor="let feedtype of reTypes.feed_type">
                                     <i class="reicon" [ngClass]="feedtype.icon"></i>
                                     <span *ngIf="totalFeed[feedtype.name]">{{totalFeed[feedtype.name]}}</span>
                                 </li>
