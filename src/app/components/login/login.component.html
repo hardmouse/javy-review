@@ -1,7 +1,7 @@
 <form [formGroup]="userLoginForm" #userLogin="ngForm" (ngSubmit)="onSubmit()">
     <div *ngIf="!loggedUser" class="input-area align-top">
-        <input type="text" name="loginId" formControlName="loginId" placeholder="email or ID" />
-        <input type="password" name="passwd" formControlName="passwd" placeholder="Password" />
+        <input type="text" name="loginId" formControlName="loginId" placeholder="email or ID" aria-label="email or ID" />
+        <input type="password" name="passwd" formControlName="passwd" placeholder="Password" aria-label="Password" />
         <input type="submit" value="GO!" name="Login" class="btn-framed" />
     </div>
 </form>

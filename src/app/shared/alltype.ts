@@ -11,7 +11,7 @@ export const feed_type = [
                             {name:'cold',icon:'icon-snow',color:'#AAF'}
                         ];
 export const stat_type = ['locked','activated','hold'];
-export const anim_type = ['dog','cat','tiger','hippo','lion','t-rex','goat','chicken','shark','owl','pig','gorilla','eagle','zebra','dragon','monkey','octopus','mouse','rabbit','wolf','bear','ox','sneak','horse'];
+export const anim_type = ['tiger','dog','cat','hippo','crocodile','fox','beaver','cheetah','elephant','lion','t-rex','parrot','fish','goat','chicken','shark','owl','pig','gorilla','eagle','zebra','dragon','monkey','octopus','mouse','rabbit','sheep','wolf','panda','lizard','dolphin','pony','bear','giraffe','buffalo','sneak','horse'];
 export const colr_type = [
                             {"color":"Blue","code":"4D94FF"},
                             {"color":"Cyan","code":"33CCCC"},

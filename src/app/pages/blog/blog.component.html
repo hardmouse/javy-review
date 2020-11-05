@@ -18,8 +18,8 @@
                 {{post.post_title}} <span class="cata-title"> - {{post.post_catagory}}</span></h5>
                 <div class="content">
                     <div *ngIf="post.post_images" class="img-wrapper">
-                        <img *ngIf="post.post_images[0]" [src]="post.post_images[0].photo" />
-                        <img *ngIf="post.post_images[1]" [src]="post.post_images[1].photo" />
+                        <img *ngIf="post.post_images[0]" [src]="post.post_images[0].photo" alt="image placeholder"/>
+                        <img *ngIf="post.post_images[1]" [src]="post.post_images[1].photo" alt="image placeholder" />
                     </div>
                     <p [ngClass]="{'p-100':!post.post_images}">{{(post.post_body.length>120)? (post.post_body | slice:0:120):(post.post_body)}}
                         <a *ngIf="post.post_body.length>120" href="javascript:void(0);"> ...more</a>
@@ -65,7 +65,7 @@
                 </select>
             </div>
             <div class="layout-cell layout-image align-top">
-                <img [src]="'./assets/images/site/'+selectedLayout+'.png'" />
+                <img [src]="'./assets/images/site/'+selectedLayout+'.png'" alt="layout-{{selectedLayout}}" />
             </div>
         </div>
     </div>
@@ -78,7 +78,7 @@
     </div>
     <div class="row text-input">
         <div *ngFor="let p_box of initImageBox; let i = index" class="col-12 col-md-4">
-            <img *ngIf="!p_box.err" [src]="p_box.imgUrl" class="image" (error)="errorImageUrl($event,i)" />
+            <img *ngIf="!p_box.err" [src]="p_box.imgUrl" class="image" alt="image placeholder" (error)="errorImageUrl($event,i)" />
             <input type="text" formControlName="{{'imageUrl'+i}}" [(ngModel)]="p_box.imgUrl" placeholder="Image {{i}} URL" class="w-100" (ngModelChange)="imgUrlUpdate($event,i)" />
             <input type="text" formControlName="{{'imageDesp'+i}}" [(ngModel)]="p_box.imgDesp" placeholder="Image {{i}} Description" class="w-100" />
         </div>

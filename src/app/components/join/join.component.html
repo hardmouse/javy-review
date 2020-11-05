@@ -41,13 +41,13 @@
                 <div class="row">
                     <div class="col-6">
                         <label>Animal:</label>
-                        <select name="avatar" formControlName="avatar" [(ngModel)]="selectedAnimal">
-                            <option *ngFor="let animal of animals" [value]="animal">{{animal}}</option>
+                        <select name="avatar" formControlName="avatar" (onChange)="setAvatar()">
+                            <option *ngFor="let animal of animals" [value]="animal">{{animal | uppercase}}</option>
                         </select>
                     </div>
                     <div class="col-6">
                         <label>Color:</label> 
-                        <select name="color" formControlName="color" [(ngModel)]="selectedColor" [ngStyle]="{'background-color':'#'+colors[selectedColor].code}">
+                        <select name="color" formControlName="color" [ngStyle]="{'background-color':'#'+colors[selectedColor].code}">
                             <option *ngFor="let color of colors; let i = index" [value]="i" [ngStyle]="{'background-color':'#'+color.code,'color':'#'+color.code}">{{color.color}}</option>
                         </select>
                     </div>
@@ -61,12 +61,13 @@
                 <div class="row">
                     <div class="col-12">
                         <label>Image Link:</label>
-                        <input type="text" name="image" formControlName="image" placeholder="Image" />
+                        <input id="photo" name="myimage" formControlName="myimage" type="file" (change)="setPhoto($event)">
+                        <!-- <input type="text" name="image" formControlName="image" placeholder="Image" /> -->
                     </div>
                 </div>
             </div>
             <div class="col-12 col-md-4 right-side">
-                IMAGE
+                <img [src]="'/assets/images/avatar/strawbag-'+selectedAnimal+'.png'" class="avatar-image" alt="Avatar Image">
             </div>
             
         </div>

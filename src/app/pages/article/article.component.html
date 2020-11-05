@@ -44,14 +44,14 @@
                 <div *ngIf="item.post_layout!='MIXED'">
                     <div *ngIf="article[0].post_images" class="row">
                         <div *ngFor="let photo of article[0].post_images" [ngClass]="imageLayout(item.post_layout)">
-                            <img [src]="photo.photo" class="image"/>
+                            <img [src]="photo.photo" class="image" alt="User Image" />
                             <p>{{photo.name}}</p>
                         </div>
                     </div>
                     <div class="row">
                         <div [innerHTML]="articleBody | safe: 'html'" class="col-12"></div>
                         <div class="col-12" *ngIf="currentVideo">
-                            <div class="video"><iframe [src]="currentVideo | safe: 'youtubeUrl'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+                            <div class="video"><iframe title="Supporting Video" [src]="currentVideo | safe: 'youtubeUrl'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
                         </div>
                         <div class="col-12 text-right">
                             <small class="text-muted">{{article[0].nickname}}</small>
@@ -62,12 +62,12 @@
                     <div class="col-12 col-md-8">
                         <div [innerHTML]="articleBody | safe: 'html'"></div>
                         <div *ngIf="currentVideo">
-                            <div class="video"><iframe [src]="currentVideo | safe: 'youtubeUrl'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+                            <div class="video"><iframe title="Supporting Video" [src]="currentVideo | safe: 'youtubeUrl'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
                         </div>
                     </div>
                     <div *ngIf="article[0].post_images" class="col-12 col-md-4">
                         <div *ngFor="let photo of article[0].post_images">
-                            <img [src]="photo.photo" class="image"/>
+                            <img [src]="photo.photo" class="image" [alt]="photo.name" />
                             <p>{{photo.name}}</p>
                         </div>
                     </div>
@@ -101,7 +101,7 @@
                                 </select>
                             </div>
                             <div class="layout-cell layout-image align-top">
-                                <img [src]="'./assets/images/site/'+selectedLayout+'.png'" />
+                                <img [src]="'./assets/images/site/'+selectedLayout+'.png'" alt="layout thumbnail - {{selectedLayout}}"/>
                             </div>
                         </div>
                     </div>
@@ -113,12 +113,12 @@
                     </div>
                     <div class="row text-input">
                         <div *ngFor="let p_box of [0,1,2]" class="col-12 col-md-6 col-lg-4 h-100 img-wrapper">
-                            <img *ngIf="article[0].post_images[p_box]" [src]="article[0].post_images[p_box].photo" class="image" (error)="errorImageUrl2($event,p_box)" />
+                            <img *ngIf="article[0].post_images[p_box]" alt="Picked Image Placeholder" [src]="article[0].post_images[p_box].photo" class="image" (error)="errorImageUrl2($event,p_box)" />
                             <input *ngIf="article[0].post_images[p_box]" type="text" formControlName="{{'imageUrl'+p_box}}" [(ngModel)]="article[0].post_images[p_box].photo" class="image-input" (ngModelChange)="imgUrlUpdate($event,p_box)">
                             <input *ngIf="article[0].post_images[p_box]" type="text" formControlName="{{'imageName'+p_box}}" [(ngModel)]="article[0].post_images[p_box].name" class="image-input">
 
                             <div *ngIf="!article[0].post_images[p_box]">
-                                <img *ngIf="tempImageBox[p_box].photo" [src]="tempImageBox[p_box].photo" class="image greyout" (error)="errorImageUrl($event,p_box)" />
+                                <img *ngIf="tempImageBox[p_box].photo" alt="image placeholder" [src]="tempImageBox[p_box].photo" class="image greyout" (error)="errorImageUrl($event,p_box)" />
                                 <!-- <img *ngIf="tempImageBox[p_box].photo" [src]="tempImageBox[p_box].photo" class="image greyout" /> -->
                                 <i class="reicon icon-doc-add"></i>Add Image {{tempImageBox[p_box].err}}
                             </div>

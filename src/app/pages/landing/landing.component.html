@@ -3,7 +3,7 @@
         <div *ngIf="!addUserMode">
             <div *ngFor="let post of _posts | slice:0:120; let i=index" class="article-box" [ngStyle]="{'border-left-color':'#'+post.color}" [routerLink]="'/article/'+post.post_uid">
                 <div *ngIf="post.post_images.length>0" class="img-wrapper">
-                    <img *ngIf="post.post_images[0]" [src]="post.post_images[0].photo" />
+                    <img *ngIf="post.post_images[0]" [src]="post.post_images[0].photo" alt="Article Image"/>
                 </div>
                 <div class="txt-wrapper" [ngClass]="{'full-txt-width':post.post_images.length<=0}">
                     <h4>{{post.post_title}}</h4>
@@ -31,7 +31,7 @@
                 <h5>{{i+1}} ) {{user.nickname}}</h5>
                 <div class="content">
                     <!-- <span *ngFor="let img of post.photo_url"> -->
-                    <img [src]="user.image?'/assets/images/users/'+user.image:'/assets/images/users/happyface.png'" class="white-frame-shade"/>
+                    <img [src]="user.image?'/assets/images/users/'+user.image:'/assets/images/users/happyface.png'" alt="User ID Image" class="white-frame-shade"/>
                     <!-- </span> -->
                     <div class="profile">
                         <p><i class="reicon icon-star-filled" *ngIf="user.state=='activated'"></i> {{user.title}}</p>

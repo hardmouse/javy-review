@@ -40,14 +40,14 @@ export class JoinComponent implements OnInit, OnDestroy{
       title: new FormControl(),
       avatar: new FormControl(),
       dob: new FormControl(),
-      image: new FormControl(),
+      myimage: new FormControl(),
       color: new FormControl(),
       description: new FormControl()
     })
     this.selectedAnimal = this.animals[Math.floor(Math.random() * this.animals.length)];
     this.selectedColor = Math.floor(Math.random() * this.colors.length);
   }
-  addUser(firstname, lastname, email, middlename, nickname, title, dob, avatar, color, image, description){
+  addUser(firstname, lastname, email, middlename, nickname, title, dob, avatar, color, myimage, description){
     this.store.dispatch(
       new UserActions.UserRegister({
         firstname:firstname,
@@ -59,7 +59,7 @@ export class JoinComponent implements OnInit, OnDestroy{
         dob:dob,
         avatar:avatar,
         color:color,
-        image:image,
+        image:myimage,
         description:description
       })
     )

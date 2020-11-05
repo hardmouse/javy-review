@@ -2,7 +2,7 @@
     <header>
         <app-profile class="profile" *ngIf="currentUserId>0 && profileOver" [curentUser]="currentUserData"></app-profile>
         <img [src]="'./../../assets/images/users/'+userImage" [routerLink]="'/blog/'+currentUserId"
-            (mouseover)="profileOver=true"
+            (mouseover)="profileOver=true" alt="User Image"
             (mouseout)="profileOver=false" class="avatar white-frame-shade" [ngClass]="{'over':mouseOver}" />
         <div class="title-nav">
             <h1 (mouseover)="mouseOver=true" (mouseout)="mouseOver=false">
