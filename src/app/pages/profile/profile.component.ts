@@ -5,6 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { UserService } from '../../services/user/user.service';
 import { environment } from './../../../environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -21,17 +22,21 @@ export class ProfileComponent implements OnInit {
   selectedAniVal="";
   selectedColor:number = 0;
   private _profileAPI = `${environment.apiUrl}getprofile.php`;
+  private _profileUpdateAPI = `${environment.apiUrl}updateprofile.php`;
   private subscriptions: Subscription[] = [];
   constructor(
     private userService : UserService,
     private http: HttpClient,
     fb: FormBuilder,
     private cd: ChangeDetectorRef,
+    private _router: Router,
     @Inject('REVIEWTYPE') public reTypes: any[]
     ) { 
       this.modUserForm = fb.group({
         "firstname": "",
         "lastname": "",
+        "pass1":"",
+        "pass2":"",
         "email":"",
         "nickname":"",
         "middlename":"",
@@ -83,11 +88,10 @@ export class ProfileComponent implements OnInit {
     );
   }
   refreshInfo(){
-    console.log(this.colors);
     let _undefinedColorCode = true;
     for(let i=0; i<this.colors.length; i++){
       if(this.colors[i].code == this.modUserForm.value.color){
-        this.selectedColor = i;
+        this.selectedColor = this.colors[i].code;
         _undefinedColorCode = false;
       }
     }
@@ -127,10 +131,28 @@ export class ProfileComponent implements OnInit {
   public getJSON(_url): Observable<any> {
     return this.http.get(_url);
   }
+  public updateProfile(_url,_d): Observable<any> {
+    return this.http.post(_url,_d);
+  }
   setAvatar(e){
     this.selectedAnimal = e.target.value;
   }
   setColor(e){
     this.selectedColor = e.target.value;
+    console.log(this.modUserForm);
+  }
+  
+  onSubmit(){
+    let data = this.modUserForm.value;
+    // console.log(data);
+    // data['color']=this.colors[data['color']].code;
+    if(data.firstname!=null && data.lastname!=null && data.email!=null && data.nickname!=null && data.title!=null && data.description!=null){
+      this.subscriptions.push(
+        this.updateProfile(this._profileUpdateAPI+ "?user="+this.curentUser.user+"&sid="+this.curentUser.token,data).subscribe(dataFB => {
+          console.log(dataFB);
+          this._router.navigate(['/blog/'+this.curentUser.user]);
+        })
+      );
+    }
   }
 }
