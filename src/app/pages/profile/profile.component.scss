@@ -31,6 +31,12 @@
     .avatar-image{
         width: 100%;
     }
+    .btn-inner{
+        cursor: pointer;
+        &:hover{
+            text-decoration: underline;
+        }
+    }
 }
 
 @media (min-width: 576px) {

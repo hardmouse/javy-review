@@ -1,18 +1,19 @@
-import { Component, OnInit, Inject, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Inject, Input, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, AbstractControl, ValidationErrors } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { UserService } from '../../services/user/user.service';
 import { environment } from './../../../environments/environment';
 import { Router } from '@angular/router';
-
+import { ImgUploadService } from '../../services/imgupload/img-upload.service';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
   @Input() fullView:boolean = true;
   animals = this.reTypes['anim_type'];
   colors = this.reTypes['colr_type'];
@@ -21,6 +22,10 @@ export class ProfileComponent implements OnInit {
   selectedAnimal=0;
   selectedAniVal="";
   selectedColor:number = 0;
+
+  imageUrl = null;
+  photo: Blob;
+
   private _profileAPI = `${environment.apiUrl}getprofile.php`;
   private _profileUpdateAPI = `${environment.apiUrl}updateprofile.php`;
   private subscriptions: Subscription[] = [];
@@ -30,6 +35,8 @@ export class ProfileComponent implements OnInit {
     fb: FormBuilder,
     private cd: ChangeDetectorRef,
     private _router: Router,
+    private _imgUpload: ImgUploadService,
+    public _DomSanitizationService: DomSanitizer,
     @Inject('REVIEWTYPE') public reTypes: any[]
     ) { 
       this.modUserForm = fb.group({
@@ -56,30 +63,22 @@ export class ProfileComponent implements OnInit {
         console.log("this.curentUser>>",this.curentUser);
       })
     )
-    
-    // this.modUserForm = new FormGroup({
-    //   firstname: new FormControl(),
-    //   lastname: new FormControl(),
-    //   nickname: new FormControl(),
-    //   middlename: new FormControl(),
-    //   email: new FormControl(),
-    //   title: new FormControl(),
-    //   avatar: new FormControl(),
-    //   dob: new FormControl(),
-    //   myimage: new FormControl(),
-    //   color: new FormControl(),
-    //   description: new FormControl()
-    // })
-    // this.selectedAnimal = this.animals[Math.floor(Math.random() * this.animals.length)];
-    // this.selectedColor = Math.floor(Math.random() * this.colors.length);
     this.getProfileData();
+    if(!this.curentUser || this.curentUser.user<=0){
+      this._router.navigate(['/join']);
+    }
+  }
+  
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
   // this._articleAPI += "?user="+curentUser.user+"&sid="+curentUser.token;
   getProfileData(){
+    this.imageUrl = `${environment.uimUrl}`+this.curentUser.user+`/`+this.curentUser.image;
     this.subscriptions.push( 
       this.getJSON(this._profileAPI+ "?user="+this.curentUser.user+"&sid="+this.curentUser.token).pipe(take(1)).subscribe(data => {
-        console.log(data);
-        console.log(this.modUserForm);
+        // console.log(data);
+        // console.log(this.modUserForm);
         this.modUserForm.patchValue(data[0]);
         this.refreshInfo();
       })
@@ -142,8 +141,7 @@ export class ProfileComponent implements OnInit {
   
   onSubmit(){
     let data = this.modUserForm.value;
-    // console.log(data);
-    // data['color']=this.colors[data['color']].code;
+    console.log(data);
     if(data.firstname!=null && data.lastname!=null && data.email!=null && data.nickname!=null && data.title!=null && data.description!=null){
       this.subscriptions.push(
         this.updateProfile(this._profileUpdateAPI+ "?user="+this.curentUser.user+"&sid="+this.curentUser.token,data).subscribe(dataFB => {
@@ -152,5 +150,24 @@ export class ProfileComponent implements OnInit {
         })
       );
     }
+  }
+
+
+  setPhoto(event){
+    this.photo = event.target.files[0];
+    console.log("this.photo:",this.photo);
+    this.uploadUserImage();
+  }
+  uploadUserImage(){
+    const fd = new FormData();
+    fd.append('userImage',this.photo);
+    fd.append('user',this.curentUser.user);
+    this.subscriptions.push(
+      this._imgUpload.postImage(fd).subscribe(res => {
+        let _result = JSON.parse(res);
+        this.modUserForm.value.myimage = this.curentUser.image = _result['file'];
+        this.imageUrl = `${environment.uimUrl}`+this.curentUser.user+`/`+this.curentUser.image;
+      })
+    );
   }
 }

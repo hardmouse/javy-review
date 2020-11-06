@@ -2,7 +2,7 @@
     <header class="row">
         <div class="title-nav col-12 col-md-8">
             <app-profile class="profile" *ngIf="currentUserId>0 && profileOver" [fullView]="false"></app-profile>
-            <img [src]="'./../../assets/images/users/'+userImage" [routerLink]="'/blog/'+currentUserId"
+            <img [src]="'https://javy.hardmouse.com/assets/images/users/upload/'+currentUserId+'/'+userImage" [routerLink]="'/blog/'+currentUserId"
                 (mouseover)="profileOver=true" alt="User Image"
                 (mouseout)="profileOver=false" class="avatar white-frame-shade" [ngClass]="{'over':mouseOver}" />
             <h1 (mouseover)="mouseOver=true" (mouseout)="mouseOver=false">
