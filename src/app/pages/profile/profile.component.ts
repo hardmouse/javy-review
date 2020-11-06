@@ -82,8 +82,6 @@ export class ProfileComponent implements OnInit {
         console.log(this.modUserForm);
         this.modUserForm.patchValue(data[0]);
         this.refreshInfo();
-
-        
       })
     );
   }
@@ -139,7 +137,7 @@ export class ProfileComponent implements OnInit {
   }
   setColor(e){
     this.selectedColor = e.target.value;
-    console.log(this.modUserForm);
+    // console.log(this.modUserForm);
   }
   
   onSubmit(){
