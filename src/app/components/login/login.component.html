@@ -6,10 +6,6 @@
     </div>
 </form>
 <div *ngIf="loggedUser" class="user-info">
-    <!-- Hi! {{loggedUser}}  -->
+    <span routerLink="/profile" class="profile"><i class="reicon icon-user-outline"></i>Profile</span>
     <span (click)="logout()" class="btn-framed">LOGOUT</span>
-</div>
-
-<div class="user-info">
-    <!-- {{user$}} -->
 </div>

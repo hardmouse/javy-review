@@ -1,14 +1,14 @@
 export const post_type = ['general','games','food','tv','books','place','hobby'];
 export const feed_type = [
-                            {name:'happy',icon:'icon-emo-happy',color:'#EFE'},
-                            {name:'like',icon:'icon-thumbs-up',color:'#EEF'},
-                            {name:'hug',icon:'icon-heart',color:'#FEE'},
-                            {name:'cry',icon:'icon-emo-cry',color:'#CEF'},
-                            {name:'sweat',icon:'icon-thumbs-up',color:'#FFE'},
-                            {name:'rolleye',icon:'icon-emo-sleep',color:'#DDD'},
-                            {name:'yike',icon:'icon-emo-devil',color:'#FEF'},
-                            {name:'hot',icon:'icon-sun',color:'#FFA'},
-                            {name:'cold',icon:'icon-snow',color:'#AAF'}
+                            {name:'happy',icon:'icon-emo-happy',color:'#EFE',exp:'Feeling happy about it!'},
+                            {name:'like',icon:'icon-thumbs-up',color:'#EEF',exp:'I kinda like it!'},
+                            {name:'hug',icon:'icon-heart',color:'#FEE',exp:'AWww...'},
+                            {name:'cry',icon:'icon-emo-cry',color:'#CEF',exp:'I kinda like it!'},
+                            {name:'sweat',icon:'icon-rain',color:'#FFE',exp:'Oh~'},
+                            {name:'rolleye',icon:'icon-emo-sleep',color:'#DDD',exp:'Zzz...'},
+                            {name:'yike',icon:'icon-emo-devil',color:'#FEF',exp:'EEeeeiiiiill!!!'},
+                            {name:'hot',icon:'icon-sun',color:'#FFA',exp:'Feel the heat!'},
+                            {name:'cold',icon:'icon-snow',color:'#DEF',exp:'That\'s cold!'}
                         ];
 export const stat_type = ['locked','activated','hold'];
 export const anim_type = ['tiger','dog','cat','hippo','crocodile','fox','beaver','cheetah','elephant','lion','t-rex','parrot','fish','goat','chicken','shark','owl','pig','gorilla','eagle','zebra','dragon','monkey','octopus','mouse','rabbit','sheep','wolf','panda','lizard','dolphin','pony','bear','giraffe','buffalo','sneak','horse'];

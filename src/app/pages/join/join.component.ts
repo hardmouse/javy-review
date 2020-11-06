@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, Input } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -14,6 +14,7 @@ import * as UserActions from './../../actions/user.actions';
   styleUrls: ['./join.component.scss']
 })
 export class JoinComponent implements OnInit, OnDestroy{
+  @Input() fullView:boolean = true;
   addUserForm: FormGroup;
   process:number = 1;
   private _addUserAPI = `${environment.apiUrl}addmember.php`;

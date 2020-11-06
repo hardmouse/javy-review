@@ -181,6 +181,9 @@ export class ArticleComponent implements OnInit, AfterViewInit, OnDestroy {
       })
     );
   }
+  transform(_str){
+    return _str.toString();
+  }
   refreshFeed(_tf){
     this.totalFeed = _tf;
     for(let i=0; i<this.totalFeed.length; i++){

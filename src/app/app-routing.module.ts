@@ -6,6 +6,8 @@ import { BlogComponent } from './pages/blog/blog.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { StoryComponent } from './pages/story/story.component';
 import { ArticleComponent } from './pages/article/article.component';
+import { JoinComponent } from './pages/join/join.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 const routes: Routes = [
   { path: '', redirectTo: '/landing', pathMatch: 'full' },
   { path: 'landing', component: LandingComponent },
@@ -15,6 +17,8 @@ const routes: Routes = [
   { path: 'contact', component: ContactComponent },
   { path: 'blog', component: BlogComponent },
   { path: 'blog/:id', component: BlogComponent },
+  { path: 'join', component: JoinComponent },
+  { path: 'profile', component: ProfileComponent },
   { path: 'article', component: LandingComponent },
   { path: 'article/:id', component: ArticleComponent }
 ];

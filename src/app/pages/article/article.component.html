@@ -15,10 +15,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-12 col-md-6">
+                    <div class="row small">
+                        <div class="col-12">
                             <ul *ngIf="currentUserData.user>0" class="user-feedback">
-                                <li *ngFor="let feedtype of reTypes.feed_type" [ngStyle]="{'background-color':feedtype.color}" (click)="onFeedClick$.next({'feed_type':feedtype.name})">
+                                <li *ngFor="let feedtype of reTypes.feed_type" [ngStyle]="{'background-color':feedtype.color}" (click)="onFeedClick$.next({'feed_type':feedtype.name})" class="review-tooltips" data-tooltip="{{transform(feedtype.exp)}}">
                                     <i class="reicon" [ngClass]="feedtype.icon"></i>
                                     <span *ngIf="totalFeed[feedtype.name]">{{totalFeed[feedtype.name]}}</span>
                                 </li>
@@ -29,13 +29,6 @@
                                     <span *ngIf="totalFeed[feedtype.name]">{{totalFeed[feedtype.name]}}</span>
                                 </li>
                             </ul>
-                        </div>
-                        <div class="col-12 col-md-6 text-right">
-                            <span class="subline">
-                                <i class="reicon icon-clipboard first"></i>{{item.post_catagory}} 
-                                <i class="reicon icon-upload-outline"></i>{{item.post_date}} 
-                                <span *ngIf="editdate"><i class="reicon icon-edit"></i>Updated:{{editdate}}</span>
-                            </span>
                         </div>
                     </div>
                 </div>
@@ -71,8 +64,22 @@
                             <p>{{photo.name}}</p>
                         </div>
                     </div>
-                    <div class="col-12 text-right">
-                        <small class="text-muted">{{article[0].nickname}}</small>
+                    <div class="col-12 text-right small text-muted footer-info">
+                        <span class="review-tooltips" data-tooltip="Catagory">
+                            <i class="reicon icon-clipboard first"></i>{{item.post_catagory}}
+                        </span>
+                        <span class="review-tooltips" data-tooltip="Published Date">
+                            <i class="reicon icon-upload-outline"></i>{{item.post_date}}
+                        </span>
+                        <span class="review-tooltips" data-tooltip="Article Viewed">
+                            <i class="reicon icon-eye-outline"></i>{{item.post_viewed}}
+                        </span>
+                        <span *ngIf="editdate" class="review-tooltips" data-tooltip="Article Modified Date">
+                            <i class="reicon icon-edit"></i>Updated:{{editdate}}
+                        </span>
+                        <span class="review-tooltips" data-tooltip="Author">
+                            <i class="reicon icon-user-outline"></i>{{article[0].nickname}}
+                        </span>
                     </div>
                 </div>
             </div>

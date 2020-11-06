@@ -1,7 +1,7 @@
 @import './src/assets/styles/variables.scss';
 .article, .reply-wrapper{
     background-color: #FFF;
-    padding: 0;
+    padding: 0.5rem;
     border-radius: $outter-radius;
     .image{
         max-width: 100%;
@@ -11,16 +11,14 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        .public{
-            .subline{
-                text-transform: uppercase;
-                .reicon:not(.first){
-                    padding-left: 1rem;
-                }
-            }
-        }
         h2{
             font-family: 'Bangers';
+        }
+    }
+    .footer-info{
+        text-transform: uppercase;
+        span{
+            padding-left: 1rem;
         }
     }
     
@@ -90,14 +88,14 @@
     margin-top: 1rem;
     background-color: #f6ebff;
     .user-reply-input{
-        padding: 1rem;
+        padding: 0;
         border-bottom: #c5ad4e 1px dotted;
     }
     .user-reply{
         border-bottom: #c5ad4e 1px dotted;
-        padding: 0.5rem 1rem;
+        padding: 0.5rem;
         .reply-body{
-            padding-left: 1rem;
+            padding-left: 0.5rem;
         }
     }
 }
@@ -113,6 +111,11 @@
                     display: inline-block;
                 }
             }
+        }
+    }
+    .reply-wrapper{
+        .user-reply-input{
+            padding: 0.5rem;
         }
     }
 }

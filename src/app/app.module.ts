@@ -15,10 +15,11 @@ import { AboutComponent } from './pages/about/about.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { LandingComponent } from './pages/landing/landing.component';
 import { StoryComponent } from './pages/story/story.component';
+import { JoinComponent } from './pages/join/join.component';
 import { ArticleComponent } from './pages/article/article.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 import { LoginComponent } from './components/login/login.component';
-import { JoinComponent } from './components/join/join.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { PostReviewComponent } from './components/post-review/post-review.component';
@@ -32,7 +33,6 @@ import { SafePipe } from './safe.pipe';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { QuillModule } from 'ngx-quill'
 import { AlertComponent } from './components/alert/alert.component';
-import { ProfileComponent } from './components/profile/profile.component';
 // const modules = {
 //   toolbar: [
 //     ['bold', 'italic', 'underline', 'strike'],        // toggled buttons

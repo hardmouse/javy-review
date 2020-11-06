@@ -25,9 +25,6 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit{
   userLoginForm: FormGroup;
   private _userLoginAPI = `${environment.apiUrl}userlogin.php`;
   private subscriptions: Subscription[] = [];
-  // titleHandler:TitleService = new TitleService;
-  // user: Observable<User[]>;
-  userNick$ :Observable<string>;
   constructor(
     private http: HttpClient,
     private userService : UserService
@@ -105,5 +102,8 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit{
     this.loggedUser = "";
     this.userService.resetUser();
     localStorage.setItem("review-user", JSON.stringify({}));
+  }
+  profile(){
+    
   }
 }
