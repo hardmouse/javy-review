@@ -2,8 +2,8 @@
     <header class="row">
         <div class="title-nav col-12 col-md-8">
             <app-profile class="profile" *ngIf="currentUserId>0 && profileOver" [fullView]="false"></app-profile>
-            <img [src]="'https://javy.hardmouse.com/assets/images/users/upload/'+currentUserId+'/'+userImage" [routerLink]="'/blog/'+currentUserId"
-                (mouseover)="profileOver=true" alt="User Image"
+            <img [src]="!errorImage?'https://javy.hardmouse.com/assets/images/users/upload/'+currentUserId+'/'+userImage:'https://javy.hardmouse.com/assets/images/users/happyface.png'" [routerLink]="'/blog/'+currentUserId"
+                (mouseover)="profileOver=true" alt="User Image" (error)="errorImageCheck($event)"
                 (mouseout)="profileOver=false" class="avatar white-frame-shade" [ngClass]="{'over':mouseOver}" />
             <h1 (mouseover)="mouseOver=true" (mouseout)="mouseOver=false">
                 <a routerLink="/">

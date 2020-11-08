@@ -37,6 +37,17 @@
             text-decoration: underline;
         }
     }
+    .pts{
+        font-family: 'Bangers';
+        font-size: 1rem;
+        .lg{
+            font-size: 2rem;
+        }
+    }
+    .img-thumnail{
+        width: auto;
+        height: 10rem;
+    }
 }
 
 @media (min-width: 576px) {

@@ -77,7 +77,7 @@
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <label>Image Link:</label>
+                        <label>Custom Image:</label>
                         <input id="photo" name="myimage" type="file" (change)="setPhoto($event)">
                     </div>
                 </div>
@@ -85,7 +85,9 @@
             <div class="col-12 col-md-4 right-side">
                 <img [src]="'/assets/images/avatar/strawbag-'+selectedAnimal+'.png'" class="avatar-image">
                 <hr>
-                <img [src]="imageUrl" height="200" width="200" class="img-thumnail">
+                <img [src]="imageUrl" class="img-thumnail">
+                <hr>
+                <p class="pts">Pts:<span class="lg">{{curentUserDetail['points']}}</span> - Reward:<span class="lg">{{curentUserDetail['reward']}}</span></p>
             </div>
             
         </div>

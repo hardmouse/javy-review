@@ -19,6 +19,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   colors = this.reTypes['colr_type'];
   modUserForm: FormGroup;
   curentUser: any;
+  curentUserDetail: any = {"points":0,"reward":0};
   selectedAnimal=0;
   selectedAniVal="";
   selectedColor:number = 0;
@@ -77,8 +78,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.imageUrl = `${environment.uimUrl}`+this.curentUser.user+`/`+this.curentUser.image;
     this.subscriptions.push( 
       this.getJSON(this._profileAPI+ "?user="+this.curentUser.user+"&sid="+this.curentUser.token).pipe(take(1)).subscribe(data => {
-        // console.log(data);
-        // console.log(this.modUserForm);
+        this.curentUserDetail = data[0];
+        console.log(this.curentUserDetail);
         this.modUserForm.patchValue(data[0]);
         this.refreshInfo();
       })
@@ -145,8 +146,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
     if(data.firstname!=null && data.lastname!=null && data.email!=null && data.nickname!=null && data.title!=null && data.description!=null){
       this.subscriptions.push(
         this.updateProfile(this._profileUpdateAPI+ "?user="+this.curentUser.user+"&sid="+this.curentUser.token,data).subscribe(dataFB => {
-          console.log(dataFB);
+          
           this._router.navigate(['/blog/'+this.curentUser.user]);
+        })
+      );
+      this.subscriptions.push(
+        this.userService.userData.pipe(take(1)).subscribe(dataFB => {
+          localStorage.setItem("review-user", JSON.stringify(dataFB));
+          this.userService.setUser(dataFB);
+          console.log(dataFB,"===========");
         })
       );
     }

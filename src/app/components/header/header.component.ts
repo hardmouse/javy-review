@@ -20,6 +20,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   users: Observable<User[]>
   currentUserId:number = 0;
   currentUserData:any;
+  errorImage:boolean = false;
   prop = {};
   // subTitle: any;
   // userInfo =  this.userService.userData.source._value;
@@ -52,11 +53,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   recheckUser(){
-    // this.prop = JSON.parse(localStorage.getItem("review-user"));
-    // if(this.prop['access']==="allow"){
-    //   this.title = this.prop['nick'];
-    //   this.userImage = this.prop['image'];
-    // }
     this.subscriptions.push(
       // this.userService.userData.pipe(filter(data => data.token!="")).subscribe(data=>{
       this.userService.userData.pipe(delay(0)).subscribe(data=>{
@@ -64,9 +60,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.currentUserId = data.user;
         this.title = data.nick;
         this.userImage = data.image;
-        // console.log("this.currentUserData >>>>>>>>>",this.currentUserData);
+        console.log("this.currentUserData >>>>>>>>>",this.currentUserData);
       })
     );
   }
-  
+  errorImageCheck(e){
+    console.log(e);
+    this.errorImage = true;
+  }
 }

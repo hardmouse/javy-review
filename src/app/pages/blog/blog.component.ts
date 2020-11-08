@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
 import { GlobalvarService } from '../../services/globalvar/globalvar.service';
 import { environment } from './../../../environments/environment';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-blog',
@@ -22,6 +23,8 @@ export class BlogComponent implements OnInit, OnDestroy {
     private funcs: FuncsService,
     private fb: FormBuilder,
     private globalVar: GlobalvarService,
+    private pageTitle: Title,
+    private pageMeta: Meta,
     @Inject('REVIEWTYPE') public reTypes: any[]
     ) {
   }
@@ -80,6 +83,9 @@ export class BlogComponent implements OnInit, OnDestroy {
       this.userService.userData.subscribe(data=>{
         this.currentUserData = data;
         console.log("BLOG.currentUserData >>>",this.currentUserData);
+        this.pageTitle.setTitle('Javy\'s Review');
+        this.pageMeta.updateTag({ property: 'og:image', content: 'https://javy.hardmouse.com/assets/images/users/upload/'+this.currentUserData.user+'/'+this.currentUserData.image });
+        this.pageMeta.updateTag({ name: 'description', content: 'Javy\'s Review - Reviewer:'+this.currentUserData.nick });
       })
     );
     this.initTags();

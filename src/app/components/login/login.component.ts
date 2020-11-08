@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
 import { UserService } from '../../services/user/user.service';
 import { environment } from './../../../environments/environment';
+import { Router } from '@angular/router';
 // import { select, Store } from '@ngrx/store';
 // import * as allActions from './../../actions/user.actions';
 // import { User } from './../../models/user.model';
@@ -27,6 +28,7 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit{
   private subscriptions: Subscription[] = [];
   constructor(
     private http: HttpClient,
+    private _router: Router,
     private userService : UserService
     // private store: Store<{userX: User[]}>
     ) {
@@ -102,8 +104,6 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit{
     this.loggedUser = "";
     this.userService.resetUser();
     localStorage.setItem("review-user", JSON.stringify({}));
-  }
-  profile(){
-    
+    this._router.navigate(['/landing']);
   }
 }
