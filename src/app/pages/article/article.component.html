@@ -33,6 +33,7 @@
                     </div>
                 </div>
             </div>
+            
             <div *ngIf="!editmode" class="container remove-padding">
                 <div *ngIf="item.post_layout!='MIXED'">
                     <div *ngIf="article[0].post_images" class="row">
@@ -46,9 +47,8 @@
                         <div class="col-12" *ngIf="currentVideo">
                             <div class="video"><iframe title="Supporting Video" [src]="currentVideo | safe: 'youtubeUrl'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
                         </div>
-                        <div class="col-12 text-right">
-                            <small class="text-muted">{{article[0].nickname}}</small>
-                        </div>
+                        <ng-container *ngTemplateOutlet="footerTemplate;context:{item:this.item, nick:article[0].nickname, editdate:this.editdate}">
+                        </ng-container>
                     </div>
                 </div>
                 <div *ngIf="item.post_layout=='MIXED'" class="row">
@@ -64,31 +64,12 @@
                             <p>{{photo.name}}</p>
                         </div>
                     </div>
-                    <div class="col-12 text-right small text-muted footer-info">
-                        <span class="review-tooltips" data-tooltip="Catagory">
-                            <i class="reicon icon-clipboard first"></i>{{item.post_catagory}}
-                        </span>
-                        <span class="review-tooltips" data-tooltip="Published Date">
-                            <i class="reicon icon-upload-outline"></i>{{item.post_date}}
-                        </span>
-                        <span class="review-tooltips" data-tooltip="Article Viewed">
-                            <i class="reicon icon-eye-outline"></i>{{item.post_viewed}}
-                        </span>
-                        <span *ngIf="editdate" class="review-tooltips" data-tooltip="Article Modified Date">
-                            <i class="reicon icon-edit"></i>Updated:{{editdate}}
-                        </span>
-                        <span class="review-tooltips" data-tooltip="Author">
-                            <i class="reicon icon-user-outline"></i>{{article[0].nickname}}
-                        </span>
-                    </div>
+                    <ng-container *ngTemplateOutlet="footerTemplate;context:{item:this.item, nick:article[0].nickname, editdate:this.editdate}">
+                    </ng-container>
                 </div>
             </div>
             <div *ngIf="editmode" class="edit">
                 <form [formGroup]="updatePostForm" #updatePost="ngForm" (ngSubmit)="onUpdateSubmit()">
-                    <!-- <div class="row">
-                        <div class="col-12 text-input">
-                        </div>
-                    </div> -->
                     <div class="row text-input">
                         <div class="col-12 col-lg-7">
                             <label>Title</label>
@@ -116,6 +97,7 @@
                         <div class="col-12">
                             <label>Review Content</label>
                             <quill-editor formControlName="review" class="ql-wrapper" [(modules)]="rte_modules" [(ngModel)]="item.post_body"></quill-editor>
+                            <small style="float:right;padding-right: 1rem;">{{item.post_body.length}} / 2000</small>
                         </div>
                     </div>
                     <div class="row text-input">
@@ -172,3 +154,26 @@
 <div class="row" *ngIf="article.length <= 0">
     <h1></h1>
 </div>
+
+
+
+
+<ng-template #footerTemplate let-item="item" let-nn="nick" let-editdate="editdate">
+    <div class="col-12 text-right small text-muted footer-info">
+        <span class="review-tooltips" data-tooltip="Catagory">
+            <i class="reicon icon-clipboard first"></i>{{item.post_catagory}}
+        </span>
+        <span class="review-tooltips" data-tooltip="Published Date">
+            <i class="reicon icon-upload-outline"></i>{{item.post_date}}
+        </span>
+        <span class="review-tooltips" data-tooltip="Article Viewed">
+            <i class="reicon icon-eye-outline"></i>{{item.post_viewed}}
+        </span>
+        <span *ngIf="editdate" class="review-tooltips" data-tooltip="Article Modified Date">
+            <i class="reicon icon-edit"></i>Updated:{{editdate}}
+        </span>
+        <span class="review-tooltips" data-tooltip="Author">
+            <i class="reicon icon-user-outline"></i>{{nn}}
+        </span>
+    </div>
+</ng-template>
