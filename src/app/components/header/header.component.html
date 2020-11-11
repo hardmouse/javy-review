@@ -1,16 +1,16 @@
 <div class="container">
     <header class="row">
         <div class="title-nav col-12 col-md-8">
-            <app-profile class="profile" *ngIf="currentUserId>0 && profileOver" [fullView]="false"></app-profile>
-            <img [src]="!errorImage?'https://javy.hardmouse.com/assets/images/users/upload/'+currentUserId+'/'+userImage:'https://javy.hardmouse.com/assets/images/users/happyface.png'" [routerLink]="'/blog/'+currentUserId"
+            <!-- <app-profile class="profile" *ngIf="currentUserId>0 && profileOver" [fullView]="false"></app-profile> -->
+            
+            <div class="profile" *ngIf="currentUserId>0 && profileOver">PROFILE</div>
+            <img [src]="!errorImage?'https://javy.hardmouse.com/assets/images/users/upload/'+currentUserId+'/'+userImage:'https://javy.hardmouse.com/assets/images/users/happyface.png'" [routerLink]="'/profile'"
                 (mouseover)="profileOver=true" alt="User Image" (error)="errorImageCheck($event)"
-                (mouseout)="profileOver=false" class="avatar white-frame-shade" [ngClass]="{'over':mouseOver}" />
-            <h1 (mouseover)="mouseOver=true" (mouseout)="mouseOver=false">
-                <a routerLink="/">
-                    <span *ngIf="title">{{title}} Review</span>
-                </a>
+                (mouseout)="profileOver=false" class="avatar white-frame-shade" [ngClass]="{'over':profileOver}" />
+            <h1>
+                <span *ngIf="title" [routerLink]="'/blog/'+currentUserId">{{title}} Review</span>
             </h1>
-            <nav class="" style="color:#fff">
+            <nav>
                 <ul>
                     <li>
                         <a routerLink="/landing">Main</a>

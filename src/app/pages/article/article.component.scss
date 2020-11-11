@@ -81,7 +81,42 @@
                 cursor: pointer;
             }
         }
-        
+    }
+}
+.edit-wrapper{
+    padding-bottom: 0.5rem;
+}
+.warn-modal{
+    background-color: rgba(0,0,0,0.7);
+    white-space: nowrap;
+    color: #FFF;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    .ver-cen{
+        cursor: pointer;
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+        width: 100%;
+        text-align: center;
+        div{
+            padding: 1rem;
+        }
+        .btn-inner{
+            font-family: 'Bangers';
+            font-size: 1.2rem;
+        }
+        .btn-inner:hover{
+            color: #FF0;
+            text-decoration: underline;
+        }
     }
 }
 .reply-wrapper{

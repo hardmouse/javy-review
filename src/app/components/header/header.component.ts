@@ -26,7 +26,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   // userInfo =  this.userService.userData.source._value;
   // headImage="./../../assets/images/users/"+this.userService.userData.source.value.image;
   titleHandler:TitleService = new TitleService;
-  mouseOver: boolean = false;
   profileOver: boolean = false;
   userLoggedIn: boolean = false;
   private subscriptions: Subscription[] = [];

@@ -41,6 +41,7 @@ export class ArticleComponent implements OnInit, AfterViewInit, OnDestroy {
   totalFeed = [];
   totalReply = [];
   editmode:boolean=false;
+  delconfirm:boolean=false;
   editdate = null;
   selectedCatagory = null;
   selectedLayout = null;
@@ -285,6 +286,7 @@ export class ArticleComponent implements OnInit, AfterViewInit, OnDestroy {
     this.editmode=!this.editmode;
   }
   deleteArticle(){
+    this.delconfirm=false;
     let _sid = JSON.parse(localStorage.getItem("review-user"));
     let _tempAPI = this._deleteArticleAPI += "?article="+this.currentArticleID+"&sid="+_sid.token;
     this.subscriptions.push( 
@@ -293,5 +295,8 @@ export class ArticleComponent implements OnInit, AfterViewInit, OnDestroy {
         this._router.navigate(['/blog/'+this.currentArticleUserID]);
       })
     );
+  }
+  deleteConfirm(){
+    this.delconfirm=true;
   }
 }

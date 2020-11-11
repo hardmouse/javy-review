@@ -11,7 +11,7 @@
                             <div *ngIf="currentArticleUserID==currentUserData.user" class="edit-wrapper">
                                 <span *ngIf="!editmode" class="btn-edit reicon icon-pen" (click)="toggleEdit()"></span>
                                 <span *ngIf="editmode" class="btn-cancel reicon icon-cancel-alt" (click)="toggleEdit()"></span>
-                                <span *ngIf="editmode" class="btn-delete reicon icon-trash" (click)="deleteArticle()"></span>
+                                <span *ngIf="editmode" class="btn-delete reicon icon-trash" (click)="deleteConfirm()"></span>
                             </div>
                         </div>
                     </div>
@@ -148,6 +148,13 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<div *ngIf="delconfirm" class="warn-modal" (click)="delconfirm=false">
+    <div class="ver-cen">
+        <div><i class="reicon icon-warning"></i> DELETE THIS POST</div>
+        <div class="btn-inner" (click)="deleteArticle()">YES</div>
+        <div class="btn-inner" (click)="delconfirm=false">NO</div>
     </div>
 </div>
 
