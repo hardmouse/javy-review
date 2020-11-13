@@ -49,7 +49,7 @@
         <div class="col-12 title"><h2>Add Review</h2></div>
         <div class="col-7">
             <label>Title:</label>
-            <input type="text" name="title" class="w-100" formControlName="title" placeholder="Title" class="w-100" />
+            <input type="text" name="title" class="w-100" formControlName="title" placeholder="Title" maxlength="30" />
         </div>
         <div class="col-2">
             <label>Catagory:</label>
@@ -79,13 +79,13 @@
     <div class="row text-input">
         <div *ngFor="let p_box of initImageBox; let i = index" class="col-12 col-md-4">
             <img *ngIf="!p_box.err" [src]="p_box.imgUrl" class="image" alt="image placeholder" (error)="errorImageUrl($event,i)" />
-            <input type="text" formControlName="{{'imageUrl'+i}}" [(ngModel)]="p_box.imgUrl" placeholder="Image {{i}} URL" class="w-100" (ngModelChange)="imgUrlUpdate($event,i)" />
-            <input type="text" formControlName="{{'imageDesp'+i}}" [(ngModel)]="p_box.imgDesp" placeholder="Image {{i}} Description" class="w-100" />
+            <input type="text" formControlName="{{'imageUrl'+i}}" [(ngModel)]="p_box.imgUrl" placeholder="Image {{i}} URL" class="w-100" (ngModelChange)="imgUrlUpdate($event,i)" maxlength="100" />
+            <input type="text" formControlName="{{'imageDesp'+i}}" [(ngModel)]="p_box.imgDesp" placeholder="Image {{i}} Description" class="w-100" maxlength="120" />
         </div>
     </div>
     <div class="row text-input">
         <div class="col-12">
-            <input type="text" name="videourl" formControlName="video" placeholder="Youtube URL" class="w-100" />
+            <input type="text" name="videourl" formControlName="video" placeholder="Youtube URL" class="w-100" maxlength="60" />
         </div>
     </div>
     <div class="row">

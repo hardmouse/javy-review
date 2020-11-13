@@ -1,4 +1,4 @@
-
+@import './../../../assets/styles/variables.scss';
 header{
     display: flex;
     flex-direction: column;
@@ -48,6 +48,16 @@ header{
     }
     
 }
+.sticky{
+    position: fixed;
+    top: 0;
+    background: $baseColor;
+    background: linear-gradient(90deg, rgba(51,0,153,1) 0%, rgba(82,23,201,1) 90%, rgba(82,23,201,0) 100%);
+    overflow: hidden;
+    z-index: 10;
+    width:inherit;
+    max-width:inherit;
+  }
 .profile{
     border-radius: .5rem;
     background-color: #FFF;

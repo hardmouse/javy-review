@@ -8,6 +8,7 @@ import { User } from './../../models/user.model';
 import { Store } from '@ngrx/store';
 import { UserService } from '../../services/user/user.service';
 import { environment } from './../../../environments/environment';
+import { throttleTime } from 'rxjs/operators';
 // import { PipeCollector } from '@angular/compiler/src/template_parser/binding_parser';
 
 @Component({
@@ -33,6 +34,7 @@ export class LandingComponent implements OnInit, OnDestroy{
 
   private _getPosts = `${environment.apiUrl}getallposts.php`;
   private _getUsers = `${environment.apiUrl}getusers.php`;
+  private _chkVisitors = `${environment.apiUrl}sitevisitor.php`;
   private subscriptions: Subscription[] = [];
   _users:any = [];
   _posts:any = [];
@@ -45,11 +47,19 @@ export class LandingComponent implements OnInit, OnDestroy{
     return this.http.get(_url);
   }
   ngOnInit(): void {
+    this.initUserData();
+    this.getInitPosts();
+    this.checkUserColor();
+    this.checkSiteVisitors();
+  }
+  initUserData(){
     this.subscriptions.push(
       this.userService.userData.subscribe(data=>{
         this.currentUserId = data.user;
       })
     );
+  }
+  getInitPosts(){
     this._getPosts += "?numb="+this.maxArticle+"&page="+this.currentPage;
     this.subscriptions.push( 
       this.getJSON(this._getPosts).subscribe(data => {
@@ -74,8 +84,8 @@ export class LandingComponent implements OnInit, OnDestroy{
         console.log(this._posts);
       })
     );
-
-
+  }
+  checkUserColor(){
     this.subscriptions.push( 
       this.getJSON(this._getUsers).subscribe(data => {
         this._users = data;
@@ -115,6 +125,16 @@ export class LandingComponent implements OnInit, OnDestroy{
   addUserToggle(){
     this.addUserMode = !this.addUserMode;
   }
-  
+  checkSiteVisitors(){
+    let _c = JSON.parse(localStorage.getItem("reviewCheckin"));
+    if(_c===null || _c.user!==this.currentUserId){
+      this.subscriptions.push( 
+        this.getJSON(this._chkVisitors+"?user="+this.currentUserId).pipe(throttleTime(2000)).subscribe(checkinData => {
+          localStorage.setItem('reviewCheckin', JSON.stringify(checkinData));
+          console.log("VISI:",checkinData);
+        })
+      )
+    }
+  }
 
 }

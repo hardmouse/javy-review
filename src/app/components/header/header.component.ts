@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, AfterViewInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { UserService } from '../../services/user/user.service';
 import { TitleService } from './../../services/title/title.service';
 
@@ -22,6 +22,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   currentUserData:any;
   errorImage:boolean = false;
   prop = {};
+
+  @ViewChild('stickyHeight') menuElement: ElementRef;
+  sticky: boolean = false;
+  navPosition: any;
+
   // subTitle: any;
   // userInfo =  this.userService.userData.source._value;
   // headImage="./../../assets/images/users/"+this.userService.userData.source.value.image;
@@ -42,7 +47,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.recheckUser();
     // }, 0)
   }
-
+  ngAfterViewInit(){
+    this.navPosition = this.menuElement.nativeElement.offsetHeight;
+  }
   ngOnDestroy() {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
@@ -64,7 +71,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
     );
   }
   errorImageCheck(e){
-    console.log(e);
+    // console.log(e);
     this.errorImage = true;
   }
+  @HostListener('window:scroll', ['$event'])
+    handleScroll(){
+      const windowScroll = window.pageYOffset;
+      console.log("windowScroll:",windowScroll,"===>",this.navPosition);
+      if(windowScroll >= this.navPosition){
+        this.sticky = true;
+      } else {
+        this.sticky = false;
+      }
+    }
+
 }

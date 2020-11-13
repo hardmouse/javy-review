@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" #stickyHeight>
     <header class="row">
         <div class="title-nav col-12 col-md-8">
             <!-- <app-profile class="profile" *ngIf="currentUserId>0 && profileOver" [fullView]="false"></app-profile> -->
@@ -10,10 +10,13 @@
             <h1>
                 <span *ngIf="title" [routerLink]="'/blog/'+currentUserId">{{title}} Review</span>
             </h1>
-            <nav>
+            <nav [class.sticky] = "sticky">
                 <ul>
                     <li>
                         <a routerLink="/landing">Main</a>
+                    </li>
+                    <li *ngIf="currentUserId<=0 || currentUserId==null">
+                        <a routerLink="/join">Join</a>
                     </li>
                     <li>
                         <a routerLink="/contact">Contact</a>

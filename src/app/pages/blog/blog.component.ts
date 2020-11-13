@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 import { FuncsService } from './../../services/funcs/funcs.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/user/user.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
@@ -25,6 +25,7 @@ export class BlogComponent implements OnInit, OnDestroy {
     private globalVar: GlobalvarService,
     private pageTitle: Title,
     private pageMeta: Meta,
+    private _router: Router,
     @Inject('REVIEWTYPE') public reTypes: any[]
     ) {
   }
@@ -111,6 +112,9 @@ export class BlogComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.route.params.subscribe(paramsVal =>{
         let _sid = JSON.parse(localStorage.getItem("review-user"));
+        if(!_sid.user || _sid==null || !_sid){
+          this._router.navigate(["/join"]);
+        }
         if(paramsVal.id){
           this._getReviewAPI += "?user="+paramsVal.id+"&sid="+_sid.token+"&numb="+this.maxArticle+"&page="+this.currentPage;
           this.postOwner = paramsVal.id;

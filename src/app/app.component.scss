@@ -33,15 +33,15 @@ main{
     animation: animatedBackground 200s linear infinite;
   }
   
-  @keyframes animatedBackground {
-    from {
-      background-position: 0 0;
-    }
-  /*use negative width if you want it to flow right to left else and positive for left to right*/
-    to {
-      background-position: -1000px 0;
-    }
+@keyframes animatedBackground {
+  from {
+    background-position: 0 0;
   }
+/*use negative width if you want it to flow right to left else and positive for left to right*/
+  to {
+    background-position: -1000px 0;
+  }
+}
 
 @media (min-width: 576px) {
 }
